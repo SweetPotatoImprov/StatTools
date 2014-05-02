@@ -1,4 +1,4 @@
 BreederTools
 ============
 
-R code for the analysis of field experiments data
+R code for the analysis of field experiments data.
