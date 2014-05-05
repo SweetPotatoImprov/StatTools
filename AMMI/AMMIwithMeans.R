@@ -18,7 +18,8 @@ AMMIwithMeans <- function(
   rdf = 0, # residual degrees of freedom
   Gsize = 800,
   f = .5,
-  pose = 1 # position for text)
+  pose = 1 # position for text
+  )
 {
   # Data
 	overall.mean <- mean(int.mean)
