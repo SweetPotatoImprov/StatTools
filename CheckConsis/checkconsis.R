@@ -5,11 +5,11 @@
 ###############################################################################
 
 ## Input
-# Data is loaded in object datos
-# Number of plants planted per plot (NOPS) must be defined
-# Number of plants planted per plot (NOPS) must be defined
-# Use standard labels for factors and traits as specified in the
-# document: PROCEDURES FOR THE EVALUATION AND ANALYSIS OF SWEETPOTATO TRIALS,
+# Data is loaded in object datos.
+# Number of plants planted per plot (NOPS) must be defined.
+# Plot size (plot.size) must be defined.
+# Use standard labels for factors and traits as specified in the document:
+# PROCEDURES FOR THE EVALUATION AND ANALYSIS OF SWEETPOTATO TRIALS,
 # and listed below.
 
 ## Output
