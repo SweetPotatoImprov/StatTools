@@ -4,18 +4,14 @@
 # 02-05-2014
 ###############################################################################
 
-## Input
-# Data is loaded in object datos.
-# Number of plants planted per plot (NOPS) must be defined.
-# Plot size (plot.size) must be defined.
-# Use standard labels for factors and traits as specified in the document:
-# PROCEDURES FOR THE EVALUATION AND ANALYSIS OF SWEETPOTATO TRIALS,
-# and listed below.
+## Input list:
+# data      : A data.frame.
+# NOPS      : Number of plants planted per plot.
+# plot.size : Plot size in m2.
 
-## Output
-# A file checks.txt with a list of
-# - all rows with some kind of inconsistency
-# - all rows with outliers
+# The data.frame must use standard labels for factors and traits as specified
+# in the PROCEDURES FOR THE EVALUATION AND ANALYSIS OF SWEETPOTATO TRIALS,
+# document. These labels are listed below: 
 
 ## Factors
 
@@ -104,10 +100,15 @@
 # DMRY		Dry matter root  yield
 # RFR		  Root foliage ratio
 
-CheckConsis <- function(data, plot.size, NOPS) {
-    
-## NOPS > NOPE > NOPH > NOPR
+## Output
+# A file checks.txt with a list of
+# - all rows with some kind of inconsistency
+# - all rows with outliers
 
+sink("checks.txt")
+
+## NOPS > NOPE > NOPH > NOPR
+  
 if (exists("NOPE", where=data)==1 & exists("NOPS", where=data)==1)
 	if (dim(subset(data, NOPE>NOPS))[1]>0){
 		cat("\n","Number of plants established (NOPE) greater than number of plants sowed (NOPS):","\n")
@@ -1540,4 +1541,5 @@ if (exists("RFR", where=data)==1)
 		cat("\n","Extreme high values for root foliage ratio (RFR):","\n")
 		subset(data, RFR > quantile(RFR, 0.75, na.rm=T)+3*IQR(RFR, na.rm=T))
 	}	
-}
+
+sink()
