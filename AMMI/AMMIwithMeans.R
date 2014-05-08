@@ -5,22 +5,19 @@
 # 02-05-2014
 ###############################################################################
 
-AMMIwithMeans <- function(
-  int.mean,
-  title = "AMMI", # main title and filename
-  cex = c(1.2, 1.2, 1.2, 1, 1), # cex main, axis, lab, text, points
-  biplot1 = "effects", # Can choose effects or means
-  biplot1xlab = NULL, # title for x axis biplot 1
-  color = c("red", "blue", "green"), # Env, Gen, Lines
-  space = c(0,0,0,0), # limx biplot1 left and right, limx biplot2 left and right
-  numrep = 0, # number of replications
-  rms = 0, # residual mean square
-  rdf = 0, # residual degrees of freedom
-  Gsize = 800,
-  f = .5,
-  pose = 1 # position for text
-  )
-{
+AMMIwithMeans <- function(int.mean,
+                          numrep = 0, # number of replications
+                          rms = 0, # residual mean square
+                          rdf = 0, # residual degrees of freedom
+                          f = .5, # scaling factor
+                          title = "AMMI", # main title and filename
+                          cex = c(1.2, 1.2, 1.2, 1, 1), # cex main, axis, lab, text, points
+                          pose = 1, # position for text
+                          biplot1 = "effects", # Can choose effects or means
+                          biplot1xlab = NULL, # title for x axis biplot 1
+                          color = c("red", "blue", "green"), # Env, Gen, Lines
+                          space = c(0,0,0,0), # limx biplot1 left and right, limx biplot2 left and right
+                          Gsize = 800){
   # Data
 	overall.mean <- mean(int.mean)
 	env.mean <- apply(int.mean, 2, mean)
