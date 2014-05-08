@@ -1,5 +1,5 @@
 CheckConsis
--------------------------
+===========
 
 Set of rules to check for consistency of data in R.
 
