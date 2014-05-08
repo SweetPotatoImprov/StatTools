@@ -1,7 +1,8 @@
 CheckConsis
 ===========
 
-Set of rules to check for consistency of data in R.
+Set of rules to check for consistency of sweetpotato field experiments data in R.
+Data labels must be defined as specified in the PROCEDURES FOR THE EVALUATION AND ANALYSIS OF SWEETPOTATO TRIALS document.
 
 1. Load the data in an object with name datos. 
 2. Define the number of plants planted per plot (NOPS) and the plot size (plot.size).
