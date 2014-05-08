@@ -6,7 +6,8 @@ R code for the analysis of field experiments data.
 CheckConsis
 -------------------------
 
-Set of rules to check for consistency of data in R.
+Set of rules to check for consistency of sweetpotato field experiments data in R.
+Data labels must be defined as specified in the PROCEDURES FOR THE EVALUATION AND ANALYSIS OF SWEETPOTATO TRIALS document.
 
 AMMI
 -------------------------
