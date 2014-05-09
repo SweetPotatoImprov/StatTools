@@ -14,7 +14,7 @@ Function to compute AMMI from an interaction means matrix.
 ```{r eval=F}
 AMMIwithMeans(int.mean, numrep = 0, rms = 0, rdf = 0, f = .5,
               title = "AMMI", biplot1 = "effects", biplot1xlab = NULL,
-              color = c("red", "blue", "green"), Gsize = 800)
+              color = c("red", "blue", "green"), Gsize = 600)
 ```
 ### Arguments
 
@@ -43,7 +43,8 @@ are specified.
 
 ### Example
 
-If data is loaded in an object with name int.mean, the following code will do the job (accepting all the defaults):
+If data is loaded in an object with name `int.mean`, the following code will do the job
+(accepting all the defaults):
 ```{r eval=F}
 source('AMMIwithMeans.R')
 AMMIwithMeans(int.mean)
