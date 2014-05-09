@@ -1,23 +1,12 @@
 ###############################################################################
 # Function to compute AMMI from an interaction means matrix
-# Input: GxE matrix. Genotypes in rows, environments in columns.
 # Raul H. Eyzaguirre P.
 # 02-05-2014
 ###############################################################################
 
-AMMIwithMeans <- function(int.mean,
-                          numrep = 0, # number of replications
-                          rms = 0, # residual mean square
-                          rdf = 0, # residual degrees of freedom
-                          f = .5, # scaling factor
-                          title = "AMMI", # main title and filename
-                          cex = c(1.2, 1.2, 1.2, 1, 1), # cex main, axis, lab, text, points
-                          pose = 1, # position for text
-                          biplot1 = "effects", # Can choose effects or means
-                          biplot1xlab = NULL, # title for x axis biplot 1
-                          color = c("red", "blue", "green"), # Env, Gen, Lines
-                          space = c(0,0,0,0), # limx biplot1 left and right, limx biplot2 left and right
-                          Gsize = 800){
+AMMIwithMeans <- function(int.mean, numrep = NULL, rms = NULL, rdf = NULL, f = .5,
+                          title = "AMMI", biplot1 = "effects", biplot1xlab = NULL,
+                          color = c("red", "blue", "green"), Gsize = 600, ...){
   # Data
 	overall.mean <- mean(int.mean)
 	env.mean <- apply(int.mean, 2, mean)
@@ -47,13 +36,13 @@ AMMIwithMeans <- function(int.mean,
 	tablaPC <- data.frame(PC = PC.num, SV = PC.sv, Cont = PC.cont, CumCont = PC.acum)
 	
 	# Significance of PCs, only if numrep, rms and rdf are known
-  if (numrep > 0){
+  if (is.null(numrep) == 0){
     int.SS <- (t(as.vector(svd.mat))%*%as.vector(svd.mat))*numrep
     PC.SS <- (dec$d[1:PC]^2)*numrep
     PC.DF <- env.num + geno.num - 1 - 2*c(1:PC)
     MS <- PC.SS/PC.DF
   }
-  if (rms > 0 & rdf >0){
+  if (is.null(rms) == 0 & is.null(rdf) == 0){
     F <- MS/rms
     probab <- pf(F, PC.DF, rdf, lower.tail=FALSE)
     rowlab <- PC.num
@@ -63,8 +52,8 @@ AMMIwithMeans <- function(int.mean,
 	  
 	#  Biplot 1
   if (biplot1 == "effects"){
-    maxx <- max(abs(c(env.mean-overall.mean, geno.mean-overall.mean)))
-    limx <- c(-maxx - space[1], maxx + space[2])
+    maxx <- max(abs(c(env.mean-overall.mean, geno.mean-overall.mean)))*1.05
+    limx <- c(-maxx, maxx)
     if (is.null(biplot1xlab) == 1)
       xlab = "Genotype and environment effects"
     else
@@ -75,7 +64,7 @@ AMMIwithMeans <- function(int.mean,
   }
   if (biplot1 == "means"){
     limx <- range(c(env.mean, geno.mean))
-    limx <- limx + c(-abs(limx[1]), abs(limx[2]))*.05 + c(-space[1], space[2])
+    limx <- limx + c(-max(abs(limx)), max(abs(limx)))*.05
     if (is.null(biplot1xlab) == 1)
       xlab = "Genotype and environment means"
     else
@@ -89,30 +78,28 @@ AMMIwithMeans <- function(int.mean,
 	par(mar=c(5, 4.5, 4, 2)+.1) 
   plot(1, type = 'n', xlim = limx, ylim = limy, xlab = xlab,
        ylab = paste("PC1 (",format(PC.cont[1],digits=3),"%)"),
-       main = paste("AMMI1 biplot - ", title, sep=""),
-       cex.axis=cex[2], cex.lab=cex[3], cex.main=cex[1])
-	points(xcorg, G[,1], col = color[2], pch=17, cex=cex[5])
-	text(xcorg, G[,1], labels = rownames(int.mean), col = color[2], cex=cex[4], pos=1, offset=0.3)
-	points(xcore, E[,1], col = color[1], pch=15, cex=cex[5])
-	text(xcore, E[,1], labels = colnames(int.mean), col = color[1], cex=cex[4], pos=pose, offset=.4)
+       main = paste("AMMI1 biplot - ", title, sep=""), ...)
+	points(xcorg, G[,1], col = color[2], pch=17, ...)
+	text(xcorg, G[,1], labels = rownames(int.mean), col = color[2], pos=1, offset=0.3)
+	points(xcore, E[,1], col = color[1], pch=15, ...)
+	text(xcore, E[,1], labels = colnames(int.mean), col = color[1], pos=1, offset=.3)
 	abline(h = 0, v = xline, col=color[3], lty = 2)
 	dev.off()
 	
 	# Biplot 2
 	limx <- range(c(E[,1], G[,1]))
-	limx <- limx + c(-abs(limx[1]), abs(limx[2]))*.05 + c(-space[3], space[4])
+	limx <- limx + c(-max(abs(limx)), max(abs(limx)))*.05
 	limy <- range(c(E[,2], G[,2]))
 	png(filename = paste(title, "biplot2.png", sep="_"), width = Gsize, height = Gsize)
 	par(mar=c(5, 4.5, 4, 2)+.1) 
   plot(1, type = 'n', xlim = limx, ylim = limy,
        xlab = paste("PC1 (",format(PC.cont[1],digits=3),"%)"),
        ylab = paste("PC2 (",format(PC.cont[2],digits=3),"%)"),
-       main = paste("AMMI2 biplot - ", title, sep=""),
-       cex.axis=cex[2], cex.lab=cex[3], cex.main=cex[1], asp=1)
-	points(G[,1], G[,2], col = color[2], pch=17, cex=cex[5])
-	text(G[,1], G[,2], labels = rownames(int.mean), col = color[2], cex=cex[4], pos=1, offset=.3)
-	points(E[,1], E[,2], col = color[1], pch=15, cex=cex[5])
-	text(E[,1], E[,2], labels = colnames(int.mean), col = color[1], cex=cex[4], pos=1, offset=.3)
+       main = paste("AMMI2 biplot - ", title, sep=""), asp=1, ...)
+	points(G[,1], G[,2], col = color[2], pch=17, ...)
+	text(G[,1], G[,2], labels = rownames(int.mean), col = color[2], pos=1, offset=.3)
+	points(E[,1], E[,2], col = color[1], pch=15, ...)
+	text(E[,1], E[,2], labels = colnames(int.mean), col = color[1], pos=1, offset=.3)
 	abline(h = 0, v = 0, col=color[3], lty = 2)
 	for (i in 1:env.num) lines(c(0,E[i,1]), c(0,E[i,2]), col=color[1], lty=3)
 	dev.off()
