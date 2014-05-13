@@ -1,20 +1,18 @@
-AMMI
-====
-
-Set of functions to run AMMI (Golob, 1968, A Statistical Model which combines Features of Factor Analytic and Analysis of Variance Techniques, *Psychometrika*, Vol 33(1): 73-114).
-
-AMMIwithMeans.R
----------------
+AMMI.R
+------
 
 ### Description
-Function to compute AMMI from an interaction means matrix.
+Set of functions to run AMMI (Gollob, H. R., 1968).
+Function `AMMI` runs AMMI from data at plot level and function `AMMIwithMeans` runs AMMI from
+an interaction means matrix.
 
 ### Usage
 
 ```{r eval=F}
-AMMIwithMeans(int.mean, numrep = 0, rms = 0, rdf = 0, f = .5,
-              title = "AMMI", biplot1 = "effects", biplot1xlab = NULL,
-              color = c("red", "blue", "green"), Gsize = 600)
+AMMI(trait, geno=geno, env=env, rep=rep, data, f = .5, title = "AMMI", biplot1 = "effects",
+     biplot1xlab = NULL, color = c("red", "blue", "green"), Gsize = 600)
+AMMIwithMeans(int.mean, numrep = 0, rms = 0, rdf = 0, f = .5, title = "AMMI", biplot1 = "effects",
+              biplot1xlab = NULL, color = c("red", "blue", "green"), Gsize = 600)
 ```
 ### Arguments
 
@@ -49,4 +47,9 @@ If data is loaded in an object with name `int.mean`, the following code will do 
 source('AMMIwithMeans.R')
 AMMIwithMeans(int.mean)
 ```
+
+### References
+
+* Gollob, H. R. (1968). A Statistical Model which combines Features of Factor Analytic and Analysis of Variance
+Techniques, *Psychometrika*, Vol 33(1): 73-114.
 

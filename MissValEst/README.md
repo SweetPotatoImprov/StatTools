@@ -1,18 +1,16 @@
 MissValEst.R
 ------------
 
-Set of functions to estimate missing values for field experiments data.
-
 ### Description
 
-Functions to estimate missing values for a Randomized Complete Block Design (RCBD) and
-for a Multi Environment Trial (MET) with a RCBD.
+Functions to estimate missing values.
+Function `mve.rcbd` estimates missing values for a Randomized Complete Block Design (RCBD) and
+function `mve.rcbd.met` estimates missing values for a Multi Environment Trial (MET) with a RCBD.
 
 ### Usage
 
 ```{r eval=F}
 mve.rcbd(trait, geno=geno, rep=rep, data, maxp=0.05, tol=1e-06)
-
 mve.rcbd.met(trait, geno=geno, env=env, rep=rep, data, maxp=0.05, tol=1e-06)
 ```
 
@@ -44,7 +42,7 @@ estimated values.
 
 ### Example
 
-Run the following the code to load all the functions:
+Run the following code to load all the functions:
 
 ```{r eval=F}
 source('MissValEst.R')

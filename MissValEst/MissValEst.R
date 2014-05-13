@@ -82,7 +82,7 @@ mve.rcbd <- function(trait, geno=geno, rep=rep, data, maxp=0.05, tol=1e-06){
 }
 
 ###############################################################################
-# Estimation of missing values for a MET with a RCBD
+# Function 2: Estimation of missing values for a MET with a RCBD
 ###############################################################################
 
 mve.rcbd.met <- function(trait, geno=geno, env=env, rep=rep, data, maxp=0.05, tol=1e-06){

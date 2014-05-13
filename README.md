@@ -6,7 +6,7 @@ R code for the analysis of field experiments data.
 AMMI
 -------------------------
 
-Set of functions to run AMMI (Golob, 1968, A Statistical Model which combines Features of Factor Analytic and Analysis of Variance Techniques, *Psychometrika*, Vol 33(1): 73-114).
+Set of functions to run AMMI (Gollob, H. R., 1968, A Statistical Model which combines Features of Factor Analytic and Analysis of Variance Techniques, *Psychometrika*, Vol 33(1): 73-114).
 
 CheckConsis
 -------------------------
