@@ -1,7 +1,6 @@
 ###############################################################################
 # Function to compute AMMI from an interaction means matrix
 # Raul H. Eyzaguirre P.
-# 02-05-2014
 ###############################################################################
 
 AMMIwithMeans <- function(int.mean, numrep = NULL, rms = NULL, rdf = NULL, f = .5,
