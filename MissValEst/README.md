@@ -10,8 +10,10 @@ function `mve.rcbd.met` estimates missing values for a Multi Environment Trial (
 ### Usage
 
 ```{r eval=F}
-mve.rcbd(trait, geno=geno, rep=rep, data, maxp=0.05, tol=1e-06)
-mve.rcbd.met(trait, geno=geno, env=env, rep=rep, data, maxp=0.05, tol=1e-06)
+mve.rcbd(trait, geno, rep, data, maxp=0.05, tol=1e-06)
+```
+```{r eval=F}
+mve.rcbd.met(trait, geno, env, rep, data, maxp=0.05, tol=1e-06)
 ```
 
 ### Arguments
@@ -52,24 +54,12 @@ If data for a single RCBD is loaded in a data frame with name `field.data` conta
 column for trait root yield (`RYTHA`) and columns with names `geno` and `rep`, the following
 code will do the job (accepting all the defaults):
 ```{r eval=F}
-mve.rcbd("RYTHA", data=field.data)
-```
-
-If data is loaded in a data frame with different names for genotype or replication columns
-(i.e. `genotypes` and `replications`), then the names must be specified:
-```{r eval=F}
-mve.rcbd("RYTHA", geno=genotypes, rep=replications, data=field.data)
+mve.rcbd("RYTHA", "geno", "rep", field.data)
 ```
 
 Similarly if data for a MET in a RCBD is loaded in a data frame with name `field.data`
 containing a column for trait root yield (`RYTHA`) and columns with names `geno`, `env`,
 and `rep`, the following code will do the job (accepting all the defaults):
 ```{r eval=F}
-mve.rcbd.met("RYTHA", data=field.data)
-```
-
-If data is loaded in a data frame with different names for genotype, environment or replication columns
-(i.e. `genotypes`, `environments`, and `replications`), then the names must be specified:
-```{r eval=F}
-mve.rcbd.met("RYTHA", geno=genotypes, env=environments, rep=replications, data=field.data)
+mve.rcbd.met("RYTHA", "geno", "env", "rep", field.data)
 ```

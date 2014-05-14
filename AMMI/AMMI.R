@@ -1,11 +1,89 @@
 ###############################################################################
-# Function to compute AMMI from an interaction means matrix
+# Functions to compute AMMI.
 # Raul H. Eyzaguirre P.
 ###############################################################################
 
-AMMIwithMeans <- function(int.mean, numrep = NULL, rms = NULL, rdf = NULL, f = .5,
-                          title = "AMMI", biplot1 = "effects", biplot1xlab = NULL,
-                          color = c("red", "blue", "green"), Gsize = 600, ...){
+###############################################################################
+# Function 1. Compute AMMI from data at plot level
+###############################################################################
+
+AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
+                 biplot1 = "effects", color = c("darkorange", "black", "gray"),
+                 Gsize = 600, ...){
+
+  # Everything as factor
+  
+  data[,geno] <- factor(data[,geno])
+  data[,env] <- factor(data[,env])
+  data[,rep] <- factor(data[,rep])
+  
+  # Check frequencies by geno and env
+  
+  nmis <- sum(is.na(data[,trait]))
+  subdata <- subset(data, is.na(data[,trait]) == 0)
+  tfreq <- table(subdata[,geno], subdata[,env])
+  
+  # Controls
+  
+  c1 <- 1 # Check for zeros. Initial state no zeros which is good
+  c2 <- 0 # Check for replicates. Initial state only one replicate which is bad
+  c3 <- 1 # Check for balance. Initial state balanced which is good
+  
+  for (i in 1:dim(tfreq)[1])
+    for (j in 1:dim(tfreq)[2]){
+      if (tfreq[i,j] == 0) c1 <- 0 # State 0: there are zeros
+      if (tfreq[i,j] > 1) c2 <- 1 # State 1: more than one replicate
+      if (tfreq[i,j] != tfreq[1,1]) c3 <- 0 # State 0: unbalanced
+    }
+  
+  # Error messages and warnings
+  
+  if (c1==0)
+    stop("Error: Some GxE cells have zero frequency. Remove genotypes or environments to proceed.")
+  
+  if (c1==1 & c2==0)
+    warning("Warning: There is only one replication. Inference is not possible with one replication.")
+  
+  if (c1==1 & c2==1 & c3==0)
+    warning("Warning: The data set is unbalanced. Significance of PCs is not evaluated.")
+  
+  G <- nlevels(data[,geno])
+  E <- nlevels(data[,env])
+  if (G < 2 | E < 2)
+    stop(paste("Error: This is not a MET experiment."))
+  if (G < 3 | E < 3)
+    stop(paste("Error: You need at least 3 genotypes and 3 environments to run AMMI."))
+  
+  numrep <- nlevels(data[,rep])
+  
+  # Compute interaction means matrix
+  int.mean <- tapply(data[,trait], list(data[,geno], data[,env]), mean, na.rm=T)
+  
+  # Compute ANOVA
+  if (c1==1 & c2==1 & c3==1){
+    model <- aov(data[,trait] ~ data[,geno] + data[,env] +
+                   data[,rep] %in% data[,env] + data[,geno]:data[,env])
+    rdf <- model$df.residual
+    rms <- deviance(model)/rdf    
+  } else {
+    numrep <- NULL
+    rdf <- NULL
+    rms <- NULL
+  }
+  
+  # Run AMMIwithMeans  
+  AMMIwithMeans(int.mean, numrep=numrep, rdf=rdf, rms=rms, f=f,
+                title=title, biplot1=biplot1, color=color, Gsize=Gsize, ...)  
+}
+
+###############################################################################
+# Function 2. Compute AMMI from an interaction means matrix
+###############################################################################
+
+AMMIwithMeans <- function(int.mean, numrep = NULL, rdf = NULL, rms = NULL,
+                          f = .5, title = "AMMI", biplot1 = "effects",
+                          color = c("darkorange", "black", "gray"),
+                          Gsize = 600, ...){
   # Data
 	overall.mean <- mean(int.mean)
 	env.mean <- apply(int.mean, 2, mean)
@@ -53,10 +131,7 @@ AMMIwithMeans <- function(int.mean, numrep = NULL, rms = NULL, rdf = NULL, f = .
   if (biplot1 == "effects"){
     maxx <- max(abs(c(env.mean-overall.mean, geno.mean-overall.mean)))*1.05
     limx <- c(-maxx, maxx)
-    if (is.null(biplot1xlab) == 1)
-      xlab = "Genotype and environment effects"
-    else
-      xlab = biplot1xlab
+    xlab = "Genotype and environment effects"
     xcorg = geno.mean-overall.mean
     xcore = env.mean-overall.mean    
     xline = 0
@@ -64,10 +139,7 @@ AMMIwithMeans <- function(int.mean, numrep = NULL, rms = NULL, rdf = NULL, f = .
   if (biplot1 == "means"){
     limx <- range(c(env.mean, geno.mean))
     limx <- limx + c(-max(abs(limx)), max(abs(limx)))*.05
-    if (is.null(biplot1xlab) == 1)
-      xlab = "Genotype and environment means"
-    else
-      xlab = biplot1xlab
+    xlab = "Genotype and environment means"
     xcorg = geno.mean
     xcore = env.mean
     xline = overall.mean

@@ -7,18 +7,18 @@
 # Function 1: Estimation of missing values in a RCBD
 ###############################################################################
 
-mve.rcbd <- function(trait, geno=geno, rep=rep, data, maxp=0.05, tol=1e-06){
+mve.rcbd <- function(trait, geno, rep, data, maxp=0.05, tol=1e-06){
   
   # Everything as factor
   
-  data[,"geno"] <- as.factor(data[,"geno"])
-  data[,"rep"] <- as.factor(data[,"rep"])
+  data[,geno] <- factor(data[,geno])
+  data[,rep] <- factor(data[,rep])
   
   # Check frequencies by geno
   
   nmis <- sum(is.na(data[,trait]))
   subdata <- subset(data, is.na(data[,trait]) == 0)
-  tfreq <- table(subdata[,"geno"])
+  tfreq <- table(subdata[,geno])
   
   # Controls
   
@@ -35,27 +35,28 @@ mve.rcbd <- function(trait, geno=geno, rep=rep, data, maxp=0.05, tol=1e-06){
   # Error messages
   
   if (c1==0)
-    stop("Error: Some genotypes have zero frequency.
-         Remove genotypes to proceed.")
+    stop("Error: Some genotypes have zero frequency. Remove genotypes to proceed.")
   
   if (c1==1 & c2==0)
-    stop("Error: There is only one replication.
-         Inference is not possible with one replication.")
-      
+    stop("Error: There is only one replication. Inference is not possible with one replication.")
+
+  if (c1==1 & c2==1 & c3==1)
+    stop("Error: The data set is balanced. There are no missing values.")
+  
   est.p <- mean(is.na(data[,trait]))
   if (est.p > maxp)
     stop(paste("Error: Too many missing values (", format(est.p*100,digits=3), "%).", sep=""))
   
   # Estimation
   
-  G <- nlevels(data[,"geno"])
+  G <- nlevels(data[,geno])
   trait.est <- paste(trait, ".est", sep="")
   R <- max(tfreq)
   data[,trait.est] <- data[,trait]
   data[,"ytemp"] <- data[,trait]
-  mG <- tapply(data[,trait], data[,"geno"], mean, na.rm=T)
+  mG <- tapply(data[,trait], data[,geno], mean, na.rm=T)
   for (i in 1:length(data[,trait]))
-    if (is.na(data[i,trait]) == 1) data[i,"ytemp"] <- mG[data[i,"geno"]]
+    if (is.na(data[i,trait]) == 1) data[i,"ytemp"] <- mG[data[i,geno]]
   lc1 <- array(0, nmis)
   lc2 <- array(0, nmis)
   cc <- max(data[,trait], na.rm=T)
@@ -65,10 +66,10 @@ mve.rcbd <- function(trait, geno=geno, rep=rep, data, maxp=0.05, tol=1e-06){
     for (i in 1:length(data[,trait]))
       if (is.na(data[i,trait]) == 1){
         data[i,"ytemp"] <- data[i,trait]
-        sum1 <- tapply(data[,"ytemp"], data[,"geno"], sum, na.rm=T)
-        sum2 <- tapply(data[,"ytemp"], data[,"rep"], sum, na.rm=T)
+        sum1 <- tapply(data[,"ytemp"], data[,geno], sum, na.rm=T)
+        sum2 <- tapply(data[,"ytemp"], data[,rep], sum, na.rm=T)
         sum3 <- sum(data[,"ytemp"], na.rm=T)
-        data[i,trait.est] <- (G*sum1[data[i,"geno"]] + R*sum2[data[i,"rep"]] - sum3)/
+        data[i,trait.est] <- (G*sum1[data[i,geno]] + R*sum2[data[i,rep]] - sum3)/
                              (G*R - G - R + 1)
         data[i,"ytemp"] <- data[i,trait.est]
       }
@@ -77,7 +78,7 @@ mve.rcbd <- function(trait, geno=geno, rep=rep, data, maxp=0.05, tol=1e-06){
     cc <- max(abs(lc1 - lc2))
   }
   
-  list(new.data = data[,c("geno","rep",trait,trait.est)],
+  list(new.data = data[,c(geno,rep,trait,trait.est)],
        est.num = nmis, est.prop = est.p)
 }
 
@@ -89,15 +90,15 @@ mve.rcbd.met <- function(trait, geno=geno, env=env, rep=rep, data, maxp=0.05, to
     
   # Everything as factor
   
-  data[,"geno"] <- as.factor(data[,"geno"])
-  data[,"env"] <- as.factor(data[,"env"])
-  data[,"rep"] <- as.factor(data[,"rep"])
+  data[,geno] <- factor(data[,geno])
+  data[,env] <- factor(data[,env])
+  data[,rep] <- factor(data[,rep])
   
   # Check frequencies by geno and env
   
   nmis <- sum(is.na(data[,trait]))
   subdata <- subset(data, is.na(data[,trait]) == 0)
-  tfreq <- table(subdata[,"geno"], subdata[,"env"])
+  tfreq <- table(subdata[,geno], subdata[,env])
   
   # Controls
   
@@ -115,19 +116,20 @@ mve.rcbd.met <- function(trait, geno=geno, env=env, rep=rep, data, maxp=0.05, to
   # Error messages
   
   if (c1==0)
-    stop("Error: Some GxE cells have zero frequency.
-         Remove genotypes or environments to proceed.")
+    stop("Error: Some GxE cells have zero frequency. Remove genotypes or environments to proceed.")
   
   if (c1==1 & c2==0)
-    stop("Error: There is only one replication.
-         Inference is not possible with one replication.")
+    stop("Error: There is only one replication. Inference is not possible with one replication.")
       
+  if (c1==1 & c2==1 & c3==1)
+    stop("Error: The data set is balanced. There are no missing values.")
+  
   est.p <- mean(is.na(data[,trait]))
   if (est.p > maxp)
     stop(paste("Error: Too many missing values (", format(est.p*100,digits=3), "%).", sep=""))
   
-  G <- nlevels(data[,"geno"])
-  E <- nlevels(data[,"env"])
+  G <- nlevels(data[,geno])
+  E <- nlevels(data[,env])
   if (G < 2 | E < 2)
     stop(paste("Error: This is not a MET experiment."))
   
@@ -137,9 +139,9 @@ mve.rcbd.met <- function(trait, geno=geno, env=env, rep=rep, data, maxp=0.05, to
   R <- max(tfreq)
   data[,trait.est] <- data[,trait]
   data[,"ytemp"] <- data[,trait]
-  mGE <- tapply(data[,trait], list(data[,"geno"], data[,"env"]), mean, na.rm=T)
+  mGE <- tapply(data[,trait], list(data[,geno], data[,env]), mean, na.rm=T)
   for (i in 1:length(data[,trait]))
-    if (is.na(data[i,trait]) == 1) data[i,"ytemp"] <- mGE[data[i,"geno"], data[i,"env"]]
+    if (is.na(data[i,trait]) == 1) data[i,"ytemp"] <- mGE[data[i,geno], data[i,env]]
   lc1 <- array(0, nmis)
   lc2 <- array(0, nmis)
   cc <- max(data[,trait], na.rm=T)
@@ -149,12 +151,12 @@ mve.rcbd.met <- function(trait, geno=geno, env=env, rep=rep, data, maxp=0.05, to
     for (i in 1:length(data[,trait]))
       if (is.na(data[i,trait]) == 1){
         data[i,"ytemp"] <- data[i,trait]
-        sum1 <- tapply(data[,"ytemp"], list(data[,"geno"], data[,"env"]), sum, na.rm=T)
-        sum2 <- tapply(data[,"ytemp"], list(data[,"env"], data[,"rep"]), sum, na.rm=T)
-        sum3 <- tapply(data[,"ytemp"], data[,"env"], sum, na.rm=T)
-        data[i,trait.est] <- (G*sum1[data[i,"geno"], data[i,"env"]] +
-                                R*sum2[data[i,"env"], data[i,"rep"]] -
-                                sum3[data[i,"env"]]) / (G*R - G - R + 1)
+        sum1 <- tapply(data[,"ytemp"], list(data[,geno], data[,env]), sum, na.rm=T)
+        sum2 <- tapply(data[,"ytemp"], list(data[,env], data[,rep]), sum, na.rm=T)
+        sum3 <- tapply(data[,"ytemp"], data[,env], sum, na.rm=T)
+        data[i,trait.est] <- (G*sum1[data[i,geno], data[i,env]] +
+                                R*sum2[data[i,env], data[i,rep]] -
+                                sum3[data[i,env]]) / (G*R - G - R + 1)
         data[i,"ytemp"] <- data[i,trait.est]
       }
     lc1 <- lc2
@@ -162,6 +164,6 @@ mve.rcbd.met <- function(trait, geno=geno, env=env, rep=rep, data, maxp=0.05, to
     cc <- max(abs(lc1 - lc2))
   }
   
-  list(new.data = data[,c("geno","env","rep",trait,trait.est)],
+  list(new.data = data[,c(geno,env,rep,trait,trait.est)],
        est.num = nmis, est.prop = est.p)
 }
