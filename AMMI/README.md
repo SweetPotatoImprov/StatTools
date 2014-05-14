@@ -14,7 +14,7 @@ AMMI(trait, geno, env, rep, data, f = .5, title = "AMMI", biplot1 = "effects",
 ```
 ```{r eval=F}
 AMMIwithMeans(int.mean, numrep = 0, rdf = 0, rms = 0, f = .5, title = "AMMI", biplot1 = "effects",
-             color = c("darkorange", "black", "gray"), Gsize = 600, ...)
+              color = c("darkorange", "black", "gray"), Gsize = 600, ...)
 ```
 ### Arguments
 
