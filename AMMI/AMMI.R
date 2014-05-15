@@ -4,19 +4,11 @@
 ###############################################################################
 
 ###############################################################################
-# Function 1. Compute AMMI from data at plot level
+# Function 0: Check data
 ###############################################################################
 
-AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
-                 biplot1 = "effects", color = c("darkorange", "black", "gray"),
-                 Gsize = 600, ...){
-  
-  # Everything as factor
-  
-  data[,geno] <- factor(data[,geno])
-  data[,env] <- factor(data[,env])
-  data[,rep] <- factor(data[,rep])
-  
+CheckData <- function(trait, geno, env, rep, data){
+
   # Check frequencies by geno and env
   
   nmis <- sum(is.na(data[,trait]))
@@ -47,8 +39,35 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
   if (c1==1 & c2==1 & c3==0)
     warning("Warning: The data set is unbalanced. Significance of PCs is not evaluated.")
   
+  # Return
+  
+  sumchecks <- c1+c2+c3
+  return(sumchecks)
+}
+
+###############################################################################
+# Function 1. Compute AMMI from data at plot level
+###############################################################################
+
+AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
+                 biplot1 = "effects", color = c("darkorange", "black", "gray"),
+                 Gsize = 600, ...){
+  
+  # Everything as factor
+  
+  data[,geno] <- factor(data[,geno])
+  data[,env] <- factor(data[,env])
+  data[,rep] <- factor(data[,rep])
+
+  # Check data
+  
+  sumchecks <- CheckData(trait, geno, env, rep, data)
+  
+  # Error messages
+  
   G <- nlevels(data[,geno])
   E <- nlevels(data[,env])
+  R <- nlevels(data[,rep])
   
   if (G < 2 | E < 2)
     stop(paste("Error: This is not a MET experiment."))
@@ -56,28 +75,26 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
   if (G < 3 | E < 3)
     stop(paste("Error: You need at least 3 genotypes and 3 environments to run AMMI."))
   
-  numrep <- nlevels(data[,rep])
-  
   # Compute interaction means matrix
   
   int.mean <- tapply(data[,trait], list(data[,geno], data[,env]), mean, na.rm=T)
   
   # Compute ANOVA
   
-  if (c1==1 & c2==1 & c3==1){
+  if (sumchecks==3){
     model <- aov(data[,trait] ~ data[,geno] + data[,env] +
                    data[,rep] %in% data[,env] + data[,geno]:data[,env])
     rdf <- model$df.residual
     rms <- deviance(model)/rdf
   } else {
-    numrep <- NULL
+    R <- NULL
     rdf <- NULL
     rms <- NULL
   }
   
   # Run AMMIwithMeans
   
-  AMMIwithMeans(int.mean, numrep=numrep, rdf=rdf, rms=rms, f=f,
+  AMMIwithMeans(int.mean, numrep=R, rdf=rdf, rms=rms, f=f,
                 title=title, biplot1=biplot1, color=color, Gsize=Gsize, ...)
 }
 
@@ -192,7 +209,6 @@ AMMIwithMeans <- function(int.mean, numrep = NULL, rdf = NULL, rms = NULL,
   
   # Output
   
-  list(PC_values_genotypes = PC.geno,
-       PC_values_environments = PC.env,
+  list(PC_values_genotypes = PC.geno, PC_values_environments = PC.env,
        Contribution_PCs = tablaPC)
 }
