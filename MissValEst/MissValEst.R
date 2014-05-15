@@ -4,15 +4,10 @@
 ###############################################################################
 
 ###############################################################################
-# Function 1: Estimation of missing values in a RCBD
+# Function 0.1: Check data
 ###############################################################################
 
-mve.rcbd <- function(trait, geno, rep, data, maxp=0.05, tol=1e-06){
-  
-  # Everything as factor
-  
-  data[,geno] <- factor(data[,geno])
-  data[,rep] <- factor(data[,rep])
+CheckData1 <- function(trait, geno, rep, data){
   
   # Check frequencies by geno
   
@@ -31,7 +26,7 @@ mve.rcbd <- function(trait, geno, rep, data, maxp=0.05, tol=1e-06){
     if (tfreq[i] > 1) c2 <- 1 # State 1: more than one replicate
     if (tfreq[i] != tfreq[1]) c3 <- 0 # State 0: unbalanced
   }
-    
+  
   # Error messages
   
   if (c1==0)
@@ -39,19 +34,84 @@ mve.rcbd <- function(trait, geno, rep, data, maxp=0.05, tol=1e-06){
   
   if (c1==1 & c2==0)
     stop("Error: There is only one replication. Inference is not possible with one replication.")
-
+  
   if (c1==1 & c2==1 & c3==1)
-    stop("Error: The data set is balanced. There are no missing values.")
+    stop("Error: The data set is balanced. There are no missing values to estimate.")
+  
+  # Return
+  
+  return(nmis)
+}
+
+###############################################################################
+# Function 0.2: Check data
+###############################################################################
+
+CheckData2 <- function(trait, geno, env, rep, data){
+  
+  # Check frequencies by geno and env
+  
+  nmis <- sum(is.na(data[,trait]))
+  subdata <- subset(data, is.na(data[,trait]) == 0)
+  tfreq <- table(subdata[,geno], subdata[,env])
+  
+  # Controls
+  
+  c1 <- 1 # Check for zeros. Initial state no zeros which is good
+  c2 <- 0 # Check for replicates. Initial state only one replicate which is bad
+  c3 <- 1 # Check for balance. Initial state balanced which is good
+  
+  for (i in 1:dim(tfreq)[1])
+    for (j in 1:dim(tfreq)[2]){
+      if (tfreq[i,j] == 0) c1 <- 0 # State 0: there are zeros
+      if (tfreq[i,j] > 1) c2 <- 1 # State 1: more than one replicate
+      if (tfreq[i,j] != tfreq[1,1]) c3 <- 0 # State 0: unbalanced
+    }
+  
+  # Error messages
+  
+  if (c1==0)
+    stop("Error: Some GxE cells have zero frequency. Remove genotypes or environments to proceed.")
+  
+  if (c1==1 & c2==0)
+    stop("Error: There is only one replication. Inference is not possible with one replication.")
+  
+  if (c1==1 & c2==1 & c3==1)
+    stop("Error: The data set is balanced. There are no missing values to estimate.")
+  
+  # Return
+  
+  return(nmis)
+}
+
+###############################################################################
+# Function 1: Estimation of missing values in a RCBD
+###############################################################################
+
+mve.rcbd <- function(trait, geno, rep, data, maxp=0.05, tol=1e-06){
+    
+  # Everything as factor
+  
+  data[,geno] <- factor(data[,geno])
+  data[,rep] <- factor(data[,rep])
+  
+  # Check data
+  
+  nmis <- CheckData1(trait, geno, rep, data)
+  
+  # Error messages
   
   est.p <- mean(is.na(data[,trait]))
   if (est.p > maxp)
-    stop(paste("Error: Too many missing values (", format(est.p*100,digits=3), "%).", sep=""))
+    stop(paste("Error: Too many missing values (",
+               format(est.p*100,digits=3), "%).", sep=""))
   
   # Estimation
   
   G <- nlevels(data[,geno])
+  R <- nlevels(data[,rep])
+  
   trait.est <- paste(trait, ".est", sep="")
-  R <- max(tfreq)
   data[,trait.est] <- data[,trait]
   data[,"ytemp"] <- data[,trait]
   mG <- tapply(data[,trait], data[,geno], mean, na.rm=T)
@@ -86,7 +146,7 @@ mve.rcbd <- function(trait, geno, rep, data, maxp=0.05, tol=1e-06){
 # Function 2: Estimation of missing values for a MET with a RCBD
 ###############################################################################
 
-mve.rcbd.met <- function(trait, geno=geno, env=env, rep=rep, data, maxp=0.05, tol=1e-06){
+mve.rcbd.met <- function(trait, geno, env, rep, data, maxp=0.05, tol=1e-06){
     
   # Everything as factor
   
@@ -94,49 +154,27 @@ mve.rcbd.met <- function(trait, geno=geno, env=env, rep=rep, data, maxp=0.05, to
   data[,env] <- factor(data[,env])
   data[,rep] <- factor(data[,rep])
   
-  # Check frequencies by geno and env
+  # Check data
   
-  nmis <- sum(is.na(data[,trait]))
-  subdata <- subset(data, is.na(data[,trait]) == 0)
-  tfreq <- table(subdata[,geno], subdata[,env])
-  
-  # Controls
-  
-  c1 <- 1 # Check for zeros. Initial state no zeros which is good
-  c2 <- 0 # Check for replicates. Initial state only one replicate which is bad
-  c3 <- 1 # Check for balance. Initial state balanced which is good
-  
-  for (i in 1:dim(tfreq)[1])
-    for (j in 1:dim(tfreq)[2]){
-      if (tfreq[i,j] == 0) c1 <- 0 # State 0: there are zeros
-      if (tfreq[i,j] > 1) c2 <- 1 # State 1: more than one replicate
-      if (tfreq[i,j] != tfreq[1,1]) c3 <- 0 # State 0: unbalanced
-    }
-  
+  nmis <- CheckData2(trait, geno, env, rep, data)
+
   # Error messages
-  
-  if (c1==0)
-    stop("Error: Some GxE cells have zero frequency. Remove genotypes or environments to proceed.")
-  
-  if (c1==1 & c2==0)
-    stop("Error: There is only one replication. Inference is not possible with one replication.")
-      
-  if (c1==1 & c2==1 & c3==1)
-    stop("Error: The data set is balanced. There are no missing values.")
   
   est.p <- mean(is.na(data[,trait]))
   if (est.p > maxp)
-    stop(paste("Error: Too many missing values (", format(est.p*100,digits=3), "%).", sep=""))
-  
+    stop(paste("Error: Too many missing values (",
+               format(est.p*100,digits=3), "%).", sep=""))
+
   G <- nlevels(data[,geno])
   E <- nlevels(data[,env])
-  if (G < 2 | E < 2)
-    stop(paste("Error: This is not a MET experiment."))
+  R <- nlevels(data[,rep])
   
+  if (G < 2 | E < 2)
+    stop(paste("Error: This is not a MET experiment.")) 
+
   # Estimation
   
   trait.est <- paste(trait, ".est", sep="")
-  R <- max(tfreq)
   data[,trait.est] <- data[,trait]
   data[,"ytemp"] <- data[,trait]
   mGE <- tapply(data[,trait], list(data[,geno], data[,env]), mean, na.rm=T)
