@@ -19,3 +19,7 @@ MissValEst
 
 Set of functions to estimate missing values for field experiments data.
 
+IndexSelection
+--------------
+
+Proposed Selection Indices for Applied Breeding Programs.
