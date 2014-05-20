@@ -13,7 +13,7 @@ AMMI(trait, geno, env, rep, data, f = .5, title = "AMMI", biplot1 = "effects",
      color = c("darkorange", "black", "gray"), Gsize = 600, ...)
 ```
 ```{r eval=F}
-AMMIwithMeans(int.mean, numrep = 0, rdf = 0, rms = 0, f = .5, title = "AMMI", biplot1 = "effects",
+AMMIwithMeans(int.mean, rep.num = 0, rdf = 0, rms = 0, f = .5, title = "AMMI", biplot1 = "effects",
               color = c("darkorange", "black", "gray"), Gsize = 600, ...)
 ```
 ### Arguments
@@ -25,7 +25,7 @@ env      : Environments.
 rep      : Replications or blocks. A RCBD is assumed.
 data     : Data frame containing the data.
 int.mean : GxE means matrix. Genotypes in rows, environments in columns.
-numrep   : Number of replications.
+rep.num  : Number of replications.
 rdf      : Residual degrees of freedom.
 rms      : Residual mean square.
 f        : Scaling factor, defaults to 0.5.
@@ -38,14 +38,14 @@ Gsize    : Graphic size.
 
 ### Details
 Significance of PCs are evaluated with function `AMMI` only if the data are balanced.
-With funcion `AMMIwithMeans` the significance of PCs is evaluated only if `numrep`,
+With funcion `AMMIwithMeans` the significance of PCs is evaluated only if `rep.num`,
 `rms` and `rdf` are specified.
 
 ### Value
 It returns the first and second PC values for genotypes and environments, a table with the
 contribution of each PC, a dispersion plot of means or effects against the first PC, and a
 dispersion plot of PC1 against PC2. Both plots are saved in the working directory as png files.
-Significance of PCs are included in the contributions table only if `numrep`, `rms` and `rdf`
+Significance of PCs are included in the contributions table only if `rep.num`, `rms` and `rdf`
 are specified.
 
 ### Example

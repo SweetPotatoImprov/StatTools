@@ -41,14 +41,14 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
   if (lc$c1==1 & lc$c2==1 & lc$c3==0)
     warning("Warning: The data set is unbalanced. Significance of PCs is not evaluated.")
 
-  G <- nlevels(data[,geno])
-  E <- nlevels(data[,env])
-  R <- nlevels(data[,rep])
+  geno.num <- nlevels(data[,geno])
+  env.num <- nlevels(data[,env])
+  rep.num <- nlevels(data[,rep])
   
-  if (G < 2 | E < 2)
+  if (geno.num < 2 | env.num < 2)
     stop(paste("Error: This is not a MET experiment."))
   
-  if (G < 3 | E < 3)
+  if (geno.num < 3 | env.num < 3)
     stop(paste("Error: You need at least 3 genotypes and 3 environments to run AMMI."))
   
   # Compute interaction means matrix
@@ -63,14 +63,14 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
     rdf <- model$df.residual
     rms <- deviance(model)/rdf
   } else {
-    R <- NULL
+    rep.num <- NULL
     rdf <- NULL
     rms <- NULL
   }
   
   # Run AMMIwithMeans
   
-  AMMIwithMeans(int.mean, numrep=R, rdf=rdf, rms=rms, f=f,
+  AMMIwithMeans(int.mean, rep.num=rep.num, rdf=rdf, rms=rms, f=f,
                 title=title, biplot1=biplot1, color=color, Gsize=Gsize, ...)
 }
 
@@ -78,7 +78,7 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
 # Function 2. Compute AMMI from an interaction means matrix
 ###############################################################################
 
-AMMIwithMeans <- function(int.mean, numrep = NULL, rdf = NULL, rms = NULL,
+AMMIwithMeans <- function(int.mean, rep.num = NULL, rdf = NULL, rms = NULL,
                           f = .5, title = "AMMI", biplot1 = "effects",
                           color = c("darkorange", "black", "gray"),
                           Gsize = 600, ...){
@@ -114,11 +114,11 @@ AMMIwithMeans <- function(int.mean, numrep = NULL, rdf = NULL, rms = NULL,
   PC.acum <- cumsum(PC.cont)
   tablaPC <- data.frame(PC = PC.num, SV = PC.sv, Cont = PC.cont, CumCont = PC.acum)
   
-  # Significance of PCs, only if numrep, rms and rdf are known
+  # Significance of PCs, only if rep.num, rms and rdf are known
   
-  if (is.null(numrep) == 0){
-    int.SS <- (t(as.vector(svd.mat))%*%as.vector(svd.mat))*numrep
-    PC.SS <- (dec$d[1:PC]^2)*numrep
+  if (is.null(rep.num) == 0){
+    int.SS <- (t(as.vector(svd.mat))%*%as.vector(svd.mat))*rep.num
+    PC.SS <- (dec$d[1:PC]^2)*rep.num
     PC.DF <- env.num + geno.num - 1 - 2*c(1:PC)
     MS <- PC.SS/PC.DF
   }
