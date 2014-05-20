@@ -4,86 +4,6 @@
 ###############################################################################
 
 ###############################################################################
-# Function 0.1: Check data
-###############################################################################
-
-CheckData1 <- function(trait, geno, rep, data){
-  
-  # Check frequencies by geno
-  
-  nmis <- sum(is.na(data[,trait]))
-  subdata <- subset(data, is.na(data[,trait]) == 0)
-  tfreq <- table(subdata[,geno])
-  
-  # Controls
-  
-  c1 <- 1 # Check for zeros. Initial state no zeros which is good
-  c2 <- 0 # Check for replicates. Initial state only one replicate which is bad
-  c3 <- 1 # Check for balance. Initial state balanced which is good
-  
-  for (i in 1:dim(tfreq)){
-    if (tfreq[i] == 0) c1 <- 0 # State 0: there are zeros
-    if (tfreq[i] > 1) c2 <- 1 # State 1: more than one replicate
-    if (tfreq[i] != tfreq[1]) c3 <- 0 # State 0: unbalanced
-  }
-  
-  # Error messages
-  
-  if (c1==0)
-    stop("Error: Some genotypes have zero frequency. Remove genotypes to proceed.")
-  
-  if (c1==1 & c2==0)
-    stop("Error: There is only one replication. Inference is not possible with one replication.")
-  
-  if (c1==1 & c2==1 & c3==1)
-    stop("Error: The data set is balanced. There are no missing values to estimate.")
-  
-  # Return
-  
-  return(nmis)
-}
-
-###############################################################################
-# Function 0.2: Check data
-###############################################################################
-
-CheckData2 <- function(trait, geno, env, rep, data){
-  
-  # Check frequencies by geno and env
-  nmis <- sum(is.na(data[,trait]))
-  subdata <- subset(data, is.na(data[,trait]) == 0)
-  tfreq <- table(subdata[,geno], subdata[,env])
-  
-  # Controls
-  
-  c1 <- 1 # Check for zeros. Initial state no zeros which is good
-  c2 <- 0 # Check for replicates. Initial state only one replicate which is bad
-  c3 <- 1 # Check for balance. Initial state balanced which is good
-  
-  for (i in 1:dim(tfreq)[1])
-    for (j in 1:dim(tfreq)[2]){
-      if (tfreq[i,j] == 0) c1 <- 0 # State 0: there are zeros
-      if (tfreq[i,j] > 1) c2 <- 1 # State 1: more than one replicate
-      if (tfreq[i,j] != tfreq[1,1]) c3 <- 0 # State 0: unbalanced
-    }
-  
-  # Error messages
-  
-  if (c1==0)
-    stop("Error: Some GxE cells have zero frequency. Remove genotypes or environments to proceed.")
-  
-  if (c1==1 & c2==0)
-    stop("Error: There is only one replication. Inference is not possible with one replication.")
-  
-  if (c1==1 & c2==1 & c3==1)
-    stop("Error: The data set is balanced. There are no missing values to estimate.")
-  
-  # Return
-  
-  return(nmis)
-}
-
-###############################################################################
 # Function 1: Estimation of missing values in a RCBD
 ###############################################################################
 
@@ -100,10 +20,19 @@ mve.rcbd <- function(trait, geno, rep, data, maxp=0.05, tol=1e-06){
   
   # Check data
   
-  nmis <- CheckData1(trait, geno, rep, data)
+  lc <- CheckData01(trait, geno, rep, data)
   
   # Error messages
   
+  if (lc$c1==0)
+    stop("Error: Some genotypes have zero frequency. Remove genotypes to proceed.")
+  
+  if (lc$c1==1 & lc$c2==0)
+    stop("Error: There is only one replication. Inference is not possible with one replication.")
+  
+  if (lc$c1==1 & lc$c2==1 & lc$c3==1)
+    stop("Error: The data set is balanced. There are no missing values to estimate.")
+
   est.p <- mean(is.na(data[,trait]))
   if (est.p > maxp)
     stop(paste("Error: Too many missing values (",
@@ -120,8 +49,8 @@ mve.rcbd <- function(trait, geno, rep, data, maxp=0.05, tol=1e-06){
   mG <- tapply(data[,trait], data[,geno], mean, na.rm=T)
   for (i in 1:length(data[,trait]))
     if (is.na(data[i,trait]) == 1) data[i,"ytemp"] <- mG[data[i,geno]]
-  lc1 <- array(0, nmis)
-  lc2 <- array(0, nmis)
+  lc1 <- array(0, lc$nmis)
+  lc2 <- array(0, lc$nmis)
   cc <- max(data[,trait], na.rm=T)
   cont <- 0
   while (cc > max(data[,trait], na.rm=T)*tol & cont<100){
@@ -142,7 +71,7 @@ mve.rcbd <- function(trait, geno, rep, data, maxp=0.05, tol=1e-06){
   }
   
   list(new.data = data[,c(geno,rep,trait,trait.est)],
-       est.num = nmis, est.prop = est.p)
+       est.num = lc$nmis, est.prop = est.p)
 }
 
 ###############################################################################
@@ -164,10 +93,19 @@ mve.rcbd.met <- function(trait, geno, env, rep, data, maxp=0.05, tol=1e-06){
   
   # Check data
   
-  nmis <- CheckData2(trait, geno, env, rep, data)
+  lc <- CheckData02(trait, geno, env, rep, data)
 
   # Error messages
   
+  if (lc$c1==0)
+    stop("Error: Some GxE cells have zero frequency. Remove genotypes or environments to proceed.")
+  
+  if (lc$c1==1 & lc$c2==0)
+    stop("Error: There is only one replication. Inference is not possible with one replication.")
+  
+  if (lc$c1==1 & lc$c2==1 & lc$c3==1)
+    stop("Error: The data set is balanced. There are no missing values to estimate.")
+
   est.p <- mean(is.na(data[,trait]))
   if (est.p > maxp)
     stop(paste("Error: Too many missing values (",
@@ -188,8 +126,8 @@ mve.rcbd.met <- function(trait, geno, env, rep, data, maxp=0.05, tol=1e-06){
   mGE <- tapply(data[,trait], list(data[,geno], data[,env]), mean, na.rm=T)
   for (i in 1:length(data[,trait]))
     if (is.na(data[i,trait]) == 1) data[i,"ytemp"] <- mGE[data[i,geno], data[i,env]]
-  lc1 <- array(0, nmis)
-  lc2 <- array(0, nmis)
+  lc1 <- array(0, lc$nmis)
+  lc2 <- array(0, lc$nmis)
   cc <- max(data[,trait], na.rm=T)
   cont <- 0
   while (cc > max(data[,trait], na.rm=T)*tol & cont<100){
@@ -211,5 +149,5 @@ mve.rcbd.met <- function(trait, geno, env, rep, data, maxp=0.05, tol=1e-06){
   }
   
   list(new.data = data[,c(geno,env,rep,trait,trait.est)],
-       est.num = nmis, est.prop = est.p)
+       est.num = lc$nmis, est.prop = est.p)
 }
