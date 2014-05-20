@@ -3,20 +3,22 @@
 # Raul H. Eyzaguirre P.
 ###############################################################################
 
-Elston <- function(..., geno, data, lb=1) {
+Elston <- function(traits, geno, data, lb=1) {
+  
+  geno <- as.character(substitute(geno))
   
   ## inits
   
-  nt <- length(list(...)) # number of traits
+  nt <- length(traits) # number of traits
   k <- NULL
   ng <- nlevels(factor(data[,geno])) # number of genotypes
   
   ## compute standardized means
 
-  df <- data.frame(tapply(data[,list(...)[[1]]], data[,geno], mean, na.rm=T))
+  df <- data.frame(tapply(data[,traits[1]], data[,geno], mean, na.rm=T))
   if (nt > 1){
     for (i in 2:nt)
-      df <- cbind(df, tapply(data[,list(...)[[i]]], data[,geno], mean, na.rm=T))
+      df <- cbind(df, tapply(data[,traits[i]], data[,geno], mean, na.rm=T))
     for (i in 1:nt)
       df[,i+nt] <- (df[,i] - mean(df[,i]))/sd(df[,i])    
   }

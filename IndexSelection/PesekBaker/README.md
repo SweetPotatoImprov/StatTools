@@ -8,18 +8,18 @@ Function to compute the Pesek-Baker index.
 ### Usage
 
 ```{r eval=F}
-PesekBaker(..., geno, env, rep, data, dgg=NULL, sf=0.1)
+PesekBaker(traits, geno, env, rep, data, dgg=NULL, sf=0.1)
 ```
 ### Arguments
 
 ```
-...  : List of traits.
-geno : Genotypes.
-env  : Environments.
-rep  : Replications or blocks.
-data : Data frame containing the data.
-dgg  : Desired genetic gains, defaults to standard deviations.
-sf   : Selected fraction, defaults to 0.1.
+traits : List of traits.
+geno   : Genotypes.
+env    : Environments.
+rep    : Replications or blocks.
+data   : Data frame containing the data.
+dgg    : Desired genetic gains, defaults to standard deviations.
+sf     : Selected fraction, defaults to 0.1.
 ```
 
 ### Details
@@ -54,7 +54,7 @@ total biomass (`BIOM`), harvest index (`HI`), and dry matter (`DM`), and columns
 `geno`, `env`, and `rep`, the following code will do the job (accepting all the defaults):
 ```{r eval=F}
 source('PesekBaker.R')
-PesekBaker("RYTHA", "BIOM", "HI", "DM", geno="geno", env="env", rep="rep", data=field.data)
+PesekBaker(c("RYTHA", "BIOM", "HI", "DM"), geno, env, rep, field.data)
 ```
 
 ### References

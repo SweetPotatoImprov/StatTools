@@ -8,15 +8,15 @@ Function to compute the Elston index.
 ### Usage
 
 ```{r eval=F}
-Elston(..., geno, data, lb=1)
+Elston(traits, geno, data, lb=1)
 ```
 ### Arguments
 
 ```
-...  : List of traits.
-geno : Genotypes.
-data : Data frame containing the data.
-lb   : Lower bound. 1 for k=min(x) and 2 for k=(n*min(x) - max(x))/(n-1)
+traits : List of traits.
+geno   : Genotypes.
+data   : Data frame containing the data.
+lb     : Lower bound. 1 for k=min(x) and 2 for k=(n*min(x) - max(x))/(n-1)
 ```
 
 ### Details
@@ -39,7 +39,7 @@ total biomass (`BIOM`), harvest index (`HI`), and dry matter (`DM`), and a colum
 `geno` for genotypes, the following code will do the job (accepting the defaults):
 ```{r eval=F}
 source('Elston.R')
-Elston("RYTHA", "BIOM", "HI", "DM", geno="geno", data=field.data)
+Elston(c("RYTHA", "BIOM", "HI", "DM"), geno, field.data)
 ```
 
 ### References

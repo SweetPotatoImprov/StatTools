@@ -25,13 +25,17 @@ checkPkgs()
 
 require(lme4)
 
-PesekBaker <- function(..., geno, env, rep, data, dgg=NULL, sf=0.1) {
+PesekBaker <- function(traits, geno, env, rep, data, dgg=NULL, sf=0.1) {
   
+  geno <- as.character(substitute(geno))
+  env <- as.character(substitute(env))
+  rep <- as.character(substitute(rep))
+
   ## inits
   
   gv <- NULL # genetic variance
   pv <- NULL # phenotipic variance
-  nt <- length(list(...)) # number of traits
+  nt <- length(traits) # number of traits
   ng <- nlevels(factor(data[,geno])) # number of genotypes
   ne <- nlevels(factor(data[,env])) # number of environments
   nr <- nlevels(factor(data[,rep])) # number of replications in each environment
@@ -40,7 +44,7 @@ PesekBaker <- function(..., geno, env, rep, data, dgg=NULL, sf=0.1) {
   ## fitted models by REML  
 
   for (i in 1:nt){
-    abc <- data.frame(c1=data[,list(...)[[i]]], c2=data[,geno], c3=data[,env], c4=data[,rep])
+    abc <- data.frame(c1=data[,traits[i]], c2=data[,geno], c3=data[,env], c4=data[,rep])
     model <- lmer(c1 ~ (1|c2) + (1|c2:c3) + (1|c3/c4), data=abc)
     gv[i] <- VarCorr(model)$c2[1]
     pv[i] <- VarCorr(model)$c2[1] + VarCorr(model)$'c2:c3'[1]/ne +
@@ -49,7 +53,7 @@ PesekBaker <- function(..., geno, env, rep, data, dgg=NULL, sf=0.1) {
   
 ## compute correlation and covariance matrices
   
-  df <- data[,c(sapply(list(...), c), env, rep)] 
+  df <- data[,c(sapply(traits, c), env, rep)] 
   df <- split(df, factor(paste(data[,env], data[,rep]))) # split by env and rep
   corr <- cor(df[[1]][,1:nt], use="pairwise.complete.obs")
   for (i in 2:length(df))
@@ -79,7 +83,7 @@ PesekBaker <- function(..., geno, env, rep, data, dgg=NULL, sf=0.1) {
   
   m <- matrix(NA, ng, nt)
   for (i in 1:nt)
-    m[,i] <- tapply(data[,list(...)[[i]]], data[,geno], mean, na.rm=T)
+    m[,i] <- tapply(data[,traits[i]], data[,geno], mean, na.rm=T)
   indices <- m %*% b
   rownames(indices) <- levels(data[,geno])
   colnames(indices) <- "PesekBakerIndex"

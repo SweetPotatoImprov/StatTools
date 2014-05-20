@@ -53,6 +53,11 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
                  biplot1 = "effects", color = c("darkorange", "black", "gray"),
                  Gsize = 600, ...){
   
+  trait <- as.character(substitute(trait))
+  geno <- as.character(substitute(geno))
+  env <- as.character(substitute(env))
+  rep <- as.character(substitute(rep))
+
   # Everything as factor
   
   data[,geno] <- factor(data[,geno])
