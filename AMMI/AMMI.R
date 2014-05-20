@@ -11,9 +11,9 @@ source('CheckData.R')
 # Function 1. Compute AMMI from data at plot level
 ###############################################################################
 
-AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
-                 biplot1 = "effects", color = c("darkorange", "black", "gray"),
-                 Gsize = 600, ...){
+AMMI <- function(trait, geno, env, rep, data, f = .5, biplot1 = "effects",
+                 title1 = NULL, title2 = NULL, file.name1 = NULL, file.name2 = NULL,
+                 color = c("darkorange", "black", "gray"), Gsize = 600, ...){
   
   trait <- as.character(substitute(trait))
   geno <- as.character(substitute(geno))
@@ -70,8 +70,10 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
   
   # Run AMMIwithMeans
   
-  AMMIwithMeans(int.mean, rep.num=rep.num, rdf=rdf, rms=rms, f=f,
-                title=title, biplot1=biplot1, color=color, Gsize=Gsize, ...)
+  AMMIwithMeans(int.mean, rep.num = rep.num, rdf = rdf, rms = rms, f = f,
+                biplot1 = biplot1, title1 = title1, title2 = title2,
+                file.name1 = file.name1, file.name2 = file.name2,
+                color = color, Gsize = Gsize, ...)
 }
 
 ###############################################################################
@@ -79,7 +81,8 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
 ###############################################################################
 
 AMMIwithMeans <- function(int.mean, rep.num = NULL, rdf = NULL, rms = NULL,
-                          f = .5, title = "AMMI", biplot1 = "effects",
+                          f = .5, biplot1 = "effects", title1 = NULL,
+                          title2 = NULL, file.name1 = NULL, file.name2 = NULL, 
                           color = c("darkorange", "black", "gray"),
                           Gsize = 600, ...){
   
@@ -132,6 +135,13 @@ AMMIwithMeans <- function(int.mean, rep.num = NULL, rdf = NULL, rms = NULL,
   
   #  Biplot 1
   
+  if (is.null(title1) == 1)
+    title1 = paste("AMMI biplot1 for ", trait, sep="")  
+  
+  if (is.null(file.name1) == 1)
+    file.name1 = paste("AMMI1_biplot_", trait, ".png", sep="") else
+      file.name1 = paste(file.name1, ".png", sep="")
+  
   if (biplot1 == "effects"){
     maxx <- max(abs(c(env.mean-overall.mean, geno.mean-overall.mean)))*1.05
     limx <- c(-maxx, maxx)
@@ -151,11 +161,10 @@ AMMIwithMeans <- function(int.mean, rep.num = NULL, rdf = NULL, rms = NULL,
   
   limy <- c(-max(abs(c(E[,1], G[,1]))), max(abs(c(E[,1], G[,1]))))
   
-  png(filename = paste(title, "biplot1.png",sep="_"), width = Gsize, height = Gsize)
+  png(filename = file.name1, width = Gsize, height = Gsize)
   par(mar=c(5, 4.5, 4, 2)+.1) 
-  plot(1, type = 'n', xlim = limx, ylim = limy, xlab = xlab,
-       ylab = paste("PC1 (",format(PC.cont[1],digits=3),"%)"),
-       main = paste("AMMI1 biplot - ", title, sep=""), ...)
+  plot(1, type = 'n', xlim = limx, ylim = limy, main = title1, xlab = xlab,
+       ylab = paste("PC1 (",format(PC.cont[1],digits=3),"%)"), ...)
   points(xcorg, G[,1], col = color[2], pch=17, ...)
   text(xcorg, G[,1], labels = rownames(int.mean), col = color[2], pos=1, offset=0.3)
   points(xcore, E[,1], col = color[1], pch=15, ...)
@@ -165,16 +174,23 @@ AMMIwithMeans <- function(int.mean, rep.num = NULL, rdf = NULL, rms = NULL,
   
   # Biplot 2
   
+  if (is.null(title2) == 1)
+    title2 = paste("AMMI biplot2 for ", trait, sep="")
+  
+  if (is.null(file.name2) == 1)
+    file.name2 = paste("AMMI2_biplot_", trait, ".png", sep="") else
+      file.name2 = paste(file.name2, ".png", sep="")
+
   limx <- range(c(E[,1], G[,1]))
   limx <- limx + c(-max(abs(limx)), max(abs(limx)))*.05
   limy <- range(c(E[,2], G[,2]))
   
-  png(filename = paste(title, "biplot2.png", sep="_"), width = Gsize, height = Gsize)
+  png(filename = file.name2, width = Gsize, height = Gsize)
   par(mar=c(5, 4.5, 4, 2)+.1)
-  plot(1, type = 'n', xlim = limx, ylim = limy,
+  plot(1, type = 'n', xlim = limx, ylim = limy, main = title2,
        xlab = paste("PC1 (",format(PC.cont[1],digits=3),"%)"),
        ylab = paste("PC2 (",format(PC.cont[2],digits=3),"%)"),
-       main = paste("AMMI2 biplot - ", title, sep=""), asp=1, ...)
+       asp=1, ...)
   points(G[,1], G[,2], col = color[2], pch=17, ...)
   text(G[,1], G[,2], labels = rownames(int.mean), col = color[2], pos=1, offset=.3)
   points(E[,1], E[,2], col = color[1], pch=15, ...)

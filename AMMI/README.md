@@ -9,31 +9,36 @@ an interaction means matrix.
 ### Usage
 
 ```{r eval=F}
-AMMI(trait, geno, env, rep, data, f = .5, title = "AMMI", biplot1 = "effects",
+AMMI(trait, geno, env, rep, data, f = 0.5, biplot1 = "effects",
+     title1 = NULL, title2 = NULL, file.name1 = NULL, file.name2 = NULL,
      color = c("darkorange", "black", "gray"), Gsize = 600, ...)
 ```
 ```{r eval=F}
-AMMIwithMeans(int.mean, rep.num = 0, rdf = 0, rms = 0, f = .5, title = "AMMI", biplot1 = "effects",
+AMMIwithMeans(int.mean, rep.num = 0, rdf = 0, rms = 0, f = 0.5, biplot1 = "effects",
+              title1 = NULL, title2 = NULL, file.name1 = NULL, file.name2 = NULL,
               color = c("darkorange", "black", "gray"), Gsize = 600, ...)
 ```
 ### Arguments
 
 ```
-trait    : Trait to analyze with AMMI.
-geno     : Genotypes.
-env      : Environments.
-rep      : Replications or blocks. A RCBD is assumed.
-data     : Data frame containing the data.
-int.mean : GxE means matrix. Genotypes in rows, environments in columns.
-rep.num  : Number of replications.
-rdf      : Residual degrees of freedom.
-rms      : Residual mean square.
-f        : Scaling factor, defaults to 0.5.
-title    : Main title and filename for plots.
-biplot1  : Choose 'effects' or 'means' for biplot1.
-color    : Color for lines, symbols and names for environments, genotypes and axes.
-Gsize    : Graphic size.
-...      : Additional graphic parameters.
+trait      : Trait to analyze.
+geno       : Genotypes.
+env        : Environments.
+rep        : Replications or blocks. A RCBD is assumed.
+data       : Data frame containing the data.
+int.mean   : GxE means matrix. Genotypes in rows, environments in columns.
+rep.num    : Number of replications.
+rdf        : Residual degrees of freedom.
+rms        : Residual mean square.
+f          : Scaling factor, defaults to 0.5.
+biplot1    : Choose 'effects' or 'means' for biplot1.
+title1     : Main title for biplot1.
+title2     : Main title for biplot2.
+file.name1 : File name for biplot1.
+file.name2 : File name for biplot2.
+color      : Color for lines, symbols and names for environments, genotypes and axes.
+Gsize      : Graphic size.
+...        : Additional graphic parameters.
 ```
 
 ### Details
