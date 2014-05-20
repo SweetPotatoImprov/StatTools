@@ -3,47 +3,9 @@
 # Raul H. Eyzaguirre P.
 ###############################################################################
 
-###############################################################################
-# Function 0: Check data
-###############################################################################
+## Required functions
 
-CheckData <- function(trait, geno, env, rep, data){
-
-  # Check frequencies by geno and env
-  
-  nmis <- sum(is.na(data[,trait]))
-  subdata <- subset(data, is.na(data[,trait]) == 0)
-  tfreq <- table(subdata[,geno], subdata[,env])
-  
-  # Controls
-  
-  c1 <- 1 # Check for zeros. Initial state no zeros which is good
-  c2 <- 0 # Check for replicates. Initial state only one replicate which is bad
-  c3 <- 1 # Check for balance. Initial state balanced which is good
-  
-  for (i in 1:dim(tfreq)[1])
-    for (j in 1:dim(tfreq)[2]){
-      if (tfreq[i,j] == 0) c1 <- 0 # State 0: there are zeros
-      if (tfreq[i,j] > 1) c2 <- 1 # State 1: more than one replicate
-      if (tfreq[i,j] != tfreq[1,1]) c3 <- 0 # State 0: unbalanced
-    }
-  
-  # Error messages and warnings
-  
-  if (c1==0)
-    stop("Error: Some GxE cells have zero frequency. Remove genotypes or environments to proceed.")
-  
-  if (c1==1 & c2==0)
-    warning("Warning: There is only one replication. Inference is not possible with one replication.")
-  
-  if (c1==1 & c2==1 & c3==0)
-    warning("Warning: The data set is unbalanced. Significance of PCs is not evaluated.")
-  
-  # Return
-  
-  sumchecks <- c1+c2+c3
-  return(sumchecks)
-}
+source('CheckData.R')
 
 ###############################################################################
 # Function 1. Compute AMMI from data at plot level
@@ -66,10 +28,19 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
 
   # Check data
   
-  sumchecks <- CheckData(trait, geno, env, rep, data)
+  lc <- CheckData02(trait, geno, env, rep, data)
   
   # Error messages
   
+  if (lc$c1==0)
+    stop("Error: Some GxE cells have zero frequency. Remove genotypes or environments to proceed.")
+  
+  if (lc$c1==1 & lc$c2==0)
+    warning("Warning: There is only one replication. Inference is not possible with one replication.")
+  
+  if (lc$c1==1 & lc$c2==1 & lc$c3==0)
+    warning("Warning: The data set is unbalanced. Significance of PCs is not evaluated.")
+
   G <- nlevels(data[,geno])
   E <- nlevels(data[,env])
   R <- nlevels(data[,rep])
@@ -86,7 +57,7 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, title = "AMMI",
   
   # Compute ANOVA
   
-  if (sumchecks==3){
+  if (lc$c1 + lc$c2 + lc$c3 == 3){
     model <- aov(data[,trait] ~ data[,geno] + data[,env] +
                    data[,rep] %in% data[,env] + data[,geno]:data[,env])
     rdf <- model$df.residual
