@@ -29,6 +29,11 @@ MissValEst
 
 Set of functions to estimate missing values for field experiments data.
 
+Resp2Selection
+--------------
+
+Set of scripts to find the optimum number of replications to get the maximum response to selection.
+
 Tai
 ----------
 
