@@ -92,18 +92,24 @@ outputArea <- gtext(container=gg, font.attr=c(family="monospace"))
 ## computations
 
 select <- function(g, k1, r1, sg1, k2, r2, sg2, sigmaG2, sigmaGL2, sigmaGY2, sigmaGLY2, sigmaE2){
-	# first stage
-	alpha1 <- sg1/g
-	x1 <- qnorm(1-alpha1)
+
+  # first stage
+	
+  alpha1 <- sg1/g
+	x1 <- qnorm(1-alpha1) # truncation point on the N(0,1) for the selected fraction
 	z1 <- dnorm(x1)
 	i1 <- z1/alpha1
 	rho1 <- sqrt(sigmaG2 / (sigmaG2 + sigmaGL2/k1 + sigmaGY2 + sigmaGLY2/k1 + sigmaE2/k1/r1))
 	R1 <- i1*rho1
-	# second stage
-	alpha2 <- sg2/sg1
+	
+  # second stage
+	
+  alpha2 <- sg2/sg1
 	rho2 <- sqrt(sigmaG2 / (sigmaG2 + sigmaGL2/k2 + sigmaGY2 + sigmaGLY2/k2 + sigmaE2/k2/r2))
-	# both togheter
-	alpha <- alpha1*alpha2
+	
+  # both togheter
+	
+  alpha <- alpha1*alpha2
 	rho <- rho1*rho2
 	int <- function(x){
 		(2*pi)^(-.5)*exp(-x^2/2) * pnorm((x1-rho*x)/(sqrt(1-rho^2)), lower.tail=FALSE)
@@ -111,7 +117,7 @@ select <- function(g, k1, r1, sg1, k2, r2, sg2, sigmaG2, sigmaGL2, sigmaGY2, sig
 	f <- function(t){
 		integrate(int, t, Inf)$value - alpha
 	}
-	x2 <- uniroot(f, c(0,20))$root
+	x2 <- uniroot(f, c(0,20))$root # truncation point on the N(0,1) for the selected fraction
 	z2 <- dnorm(x2) 
 	a <- (x1 - rho*x2)/sqrt(1-rho^2)
 	b <- (x2 - rho*x1)/sqrt(1-rho^2)
