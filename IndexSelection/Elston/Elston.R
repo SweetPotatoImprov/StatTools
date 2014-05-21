@@ -7,13 +7,13 @@ Elston <- function(traits, geno, data, lb=1) {
   
   geno <- as.character(substitute(geno))
   
-  ## inits
+  # inits
   
   nt <- length(traits) # number of traits
   k <- NULL
   ng <- nlevels(factor(data[,geno])) # number of genotypes
   
-  ## compute standardized means
+  # compute standardized means
 
   df <- data.frame(tapply(data[,traits[1]], data[,geno], mean, na.rm=T))
   if (nt > 1){
@@ -23,7 +23,7 @@ Elston <- function(traits, geno, data, lb=1) {
       df[,i+nt] <- (df[,i] - mean(df[,i]))/sd(df[,i])    
   }
   
-  ## compute lower bounds
+  # compute lower bounds
   
   if (lb==1)
     for (i in 1:nt)
@@ -42,7 +42,7 @@ Elston <- function(traits, geno, data, lb=1) {
 
   orden <- order(df$EI, decreasing = T)
     
-  ## results
+  # results
   
   list(Elston.Index=df$EI, Sorted.Elston.Index=df$EI[orden])
 }
