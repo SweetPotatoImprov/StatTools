@@ -29,10 +29,6 @@ require(lme4)
 
 PesekBaker <- function(traits, geno, env, rep, data, dgg=NULL, sf=0.1) {
   
-  geno <- as.character(substitute(geno))
-  env <- as.character(substitute(env))
-  rep <- as.character(substitute(rep))
-
   # inits
   
   gv <- NULL # genetic variance

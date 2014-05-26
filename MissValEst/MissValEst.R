@@ -13,10 +13,6 @@ source('CheckData.R')
 
 mve.rcbd <- function(trait, geno, rep, data, maxp=0.05, tol=1e-06){
     
-  trait <- as.character(substitute(trait))
-  geno <- as.character(substitute(geno))
-  rep <- as.character(substitute(rep))
-
   # Everything as factor
   
   data[,geno] <- factor(data[,geno])
@@ -84,11 +80,6 @@ mve.rcbd <- function(trait, geno, rep, data, maxp=0.05, tol=1e-06){
 
 mve.rcbd.met <- function(trait, geno, env, rep, data, maxp=0.05, tol=1e-06){
     
-  trait <- as.character(substitute(trait))
-  geno <- as.character(substitute(geno))
-  env <- as.character(substitute(env))
-  rep <- as.character(substitute(rep))
-
   # Everything as factor
   
   data[,geno] <- factor(data[,geno])

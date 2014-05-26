@@ -54,7 +54,7 @@ total biomass (`BIOM`), harvest index (`HI`), and dry matter (`DM`), and columns
 `geno`, `env`, and `rep`, the following code will do the job (accepting all the defaults):
 ```{r eval=F}
 source('PesekBaker.R')
-PesekBaker(c("RYTHA", "BIOM", "HI", "DM"), geno, env, rep, field.data)
+PesekBaker(c('RYTHA', 'BIOM', 'HI', 'DM'), 'geno', 'env', 'rep', field.data)
 ```
 
 ### References

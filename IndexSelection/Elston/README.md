@@ -39,7 +39,7 @@ total biomass (`BIOM`), harvest index (`HI`), and dry matter (`DM`), and a colum
 `geno` for genotypes, the following code will do the job (accepting the defaults):
 ```{r eval=F}
 source('Elston.R')
-Elston(c("RYTHA", "BIOM", "HI", "DM"), geno, field.data)
+Elston(c('RYTHA', 'BIOM', 'HI', 'DM'), 'geno', field.data)
 ```
 
 ### References

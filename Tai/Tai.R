@@ -14,11 +14,6 @@ Tai <- function(trait, geno, env, rep, data, conf=0.95, title = NULL,
                 file.name = NULL, color = c("darkorange", "black", "gray"),
                 Gsize = 600, ...){
   
-  trait <- as.character(substitute(trait))
-  geno <- as.character(substitute(geno))
-  env <- as.character(substitute(env))
-  rep <- as.character(substitute(rep))
-
   # Everything as factor
   
   data[,geno] <- factor(data[,geno])

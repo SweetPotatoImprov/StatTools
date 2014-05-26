@@ -5,8 +5,6 @@
 
 Elston <- function(traits, geno, data, lb=1) {
   
-  geno <- as.character(substitute(geno))
-  
   # inits
   
   nt <- length(traits) # number of traits

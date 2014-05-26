@@ -48,7 +48,7 @@ If data for a MET in a RCBD is loaded in a data frame with name `field.data`
 containing a column for trait root yield (`RYTHA`) and columns with names `geno`, `env`,
 and `rep`, the following code will do the job (accepting all the defaults):
 ```{r eval=F}
-Tai(RYTHA, geno, env, rep, field.data)
+Tai('RYTHA', 'geno', 'env', 'rep', field.data)
 ```
 
 ### References
