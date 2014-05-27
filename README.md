@@ -1,7 +1,7 @@
-BreederTools
+StatTools
 ============
 
-R code for the analysis of field experiments data. To use these tools you must download all the R functions in your working directory.
+Tools for the analysis of field experiments data (mainly R code). To use these tools you must download all the R functions in your working directory.
 
 AMMI
 -------------------------
