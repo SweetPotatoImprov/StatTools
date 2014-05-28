@@ -30,24 +30,24 @@
 # VIR2		Virus symptoms (1-9), second evaluation
 # ALT1		Alternaria symptoms (1-9), first evaluation
 # ALT2		Alternaria symptoms (1-9), second evaluation
-# VV1		  Vine vigor (1-9), first evaluation
-# VW		  Vine weight
+# VV1		Vine vigor (1-9), first evaluation
+# VW		Vine weight
 # NOPH		Number of plants harvested
 # NOPR		Number of plants with roots
 # NOCR		Number of commercial roots
 # NONC		Number of non commercial roots
-# CRW		  Commercial root weight
+# CRW		Commercial root weight
 # NCRW		Non commercial root weight
 # RFCP		Root primary flesh color
 # RFCS		Root secondary flesh color
 # SCOL		Storage root skin color
 # FCOL		Storage root flesh color
-# RS		  Root size (1-9)
-# RF		  Root form (1-9)
+# RS		Root size (1-9)
+# RF		Root form (1-9)
 # DAMR		Root defects (1-9)
 # WED1		Weevil damage (1-9), first evaluation
-# DMF		  Fresh weight of roots for dry matter assessment
-# DMD		  Dry weight of DMF samples
+# DMF		Fresh weight of roots for dry matter assessment
+# DMD		Dry weight of DMF samples
 # FRAW1		Root fiber (1-9), first determination
 # SURAW1	Root sugar (1-9), first determination
 # STRAW1	Root starch (1-9), first determination
@@ -83,7 +83,7 @@
 # GLUC		Glucose
 # SUCR		Sucrose
 # MALT		Maltose
-# TRW		  Total root weight
+# TRW		Total root weight
 # CYTHA		Commercial root yield t/ ha
 # RYTHA		Total root yield t/ha
 # ACRW		Average commercial root weight = CRW/NOCR
@@ -97,7 +97,7 @@
 # DM	  	Storage root dry matter content (%)
 # DMFY		Dry matter foliage yield 
 # DMRY		Dry matter root  yield
-# RFR		  Root foliage ratio
+# RFR		Root foliage ratio
 
 ## Output
 # A file checks.txt with a list of
