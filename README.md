@@ -19,6 +19,11 @@ CheckData
 
 Set of functions to check experimental data. These functions are needed to check data for posterior analysis with AMMI, Tai, or for missing values estimation.
 
+GoodDataM&P
+--------------
+
+Some recommendations for good data management and statistical analysis. I hope these recommendations will help you to save time and minimize the number of mistakes.
+
 IndexSelection
 --------------
 
