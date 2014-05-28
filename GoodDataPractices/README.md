@@ -32,8 +32,8 @@ The data table format
 
 For a single source of data you must have one and only one data table. A data table is the standard format for data analysis and it is the kind of data structure that any statistical package likes. In a data table you have:
 
-* one row for each case (i.e. a plot, a pot or a plant) and
-* one column for each variable (i.e. a trait like root yield or a factor like genotypes).
+* one row for each case (e.g. a plot, a pot or a plant) and
+* one column for each variable (e.g. a trait like root yield or a factor like genotypes).
 
 Use standard labels
 -------------------
@@ -44,7 +44,7 @@ For your data table it is good to use standard short labels because it makes eas
 * RYTHA for root yield in tons per hectare and
 * DM for dry matter.
 
-You can see the full set of factors, traits and their respective labels [here](https://github.com/SweetPotatoImprov/StatTools/blob/master/CheckConsis/CheckConsis.R).
+You can see the full set of factors, traits, and their respective labels [here](https://github.com/SweetPotatoImprov/StatTools/blob/master/CheckConsis/CheckConsis.R).
 
 Some recommendations for your labels:
 
@@ -67,7 +67,7 @@ Why it is better to use a command-driven program for these situations?
 * When you use different programs each with several steps, you need to manipulate the data to use it with different programs, and you need to save processed data for intermediate steps. While doing so, you increase the chances of committing mistakes. 
 * It is very difficult to document your data analysis procedures when using a menu-driven program. When using a command-driven program, your code for analysis is the analysis documentation itself.
 * If you use menu-driven programs and commit a mistake, because you most probably don't have a precise documentation of your analysis, you could never realize that you commited a mistake.
-* If you use menu-driven programs, you have to save all the outputs of your analysis. Hence you end up with a lot of files with intermediate and final results. In a few days (in some cases even in a few hours or minutes) you will loose track of what you did and how you did it.
+* If you use menu-driven programs, you have to save all the outputs of your analysis. Hence, you end up with a lot of files with intermediate and final results. In a few days (in some cases even in a few hours or minutes) you will loose track of what you did and how you did it.
 * If you realize that there was something wrong with the raw data, then you need to do everything again. Typically, you will need to do all the analysis several times, and this is very time consuming.
 * With a command-driven program you don't need to save the intermediate or final results, just the file with the code. If something happened with the raw data you only need to run the code again. It saves a lot of time and prevents errors.
 
@@ -79,7 +79,7 @@ If you work with a command-driven program and follow these recommendations, you 
 * One to clean the data
 * One to analyze the data.
 
-The key idea here is that anyone with these two files must be able to reproduce your analysis and therefore to get exactly the same results you get, no matter how complicated the analysis is. This is the concept of reproducibility. Reproducibility is important because:
+The key idea here is that anyone with these two files must be able to reproduce your analysis and therefore to get exactly the same results you got, no matter how complicated the analysis is. This is the concept of reproducibility. Reproducibility is important because:
 
 * It helps to prevent/correct errors. The more the people that reproduce your analysis, the higher the chances of detecting and correcting mistakes.
 * It makes analysis transparent.
