@@ -1,10 +1,10 @@
 Good Data Management and Statistical Analysis Practices
 =======================================================
 
-Have one and only one data file
--------------------------------
+Have only one data file
+-----------------------
 
-Typically a scientist or anyone who works with data will end up with several files and/or copies of the data and several files with intermediate steps. If you are working with data, there should have been a time where you had a file with name *data*, but now you probably have:
+Typically a scientist or anyone who works with data will end up with several files with different copies of the data and several files with intermediate steps. If you are working with data, there should have been a time where you had a file with name *data*, but now you probably have:
 
 * data
 * data_V01
@@ -25,7 +25,7 @@ In addition you will surely have some intermediate data analysis step files such
 
 This is not a good practice because it increases the probability of committing mistakes and of getting inconsistent results. At some point you will probably loose the track of which analyses where done with which files, and hence you can get (and publish) inconsistent results because they have been done with different data. This problem becomes even more serious if you work with several colleagues and all of you have their own data files.
 
-Try to have one and only one data file, and it is better if this file has the raw data, without any kind of processing. If your data come from different sources then you can have one data file for each source, or maybe better, a data base file with different tables for each data source. For instance, this could be the case where you have one table for field data and one for laboratory data, or when you repeat an experiment under different conditions. If you like to use workbooks, then you can have one file with a different sheet for each data source, but if this is the case, don't try to put all the data together in a single sheet by *copy and paste*; it is very dangerous.
+Try to have only one data file, and it is better if this file has the raw data, without any kind of processing. If your data come from different sources then you can have one data file for each source, or maybe better, a data base file with different tables for each data source. For instance, this could be the case where you have one table for field data and one for laboratory data, or when you repeat an experiment under different conditions. If you like to use workbooks, then you can have one file with a different sheet for each data source, but if this is the case, don't try to put all the data together in a single sheet by *copy and paste*; it is very dangerous.
 
 The data table format
 ---------------------
