@@ -66,7 +66,7 @@ For a very simple analysis you can use any kind of menu-driven programs (these a
 
 Why it is better to use a command-driven program for these situations?
 
-* When you use different programs each with several steps, you need to manipulate the data to use it with the different programs, and you need to save processed data for intermediate steps. While doing so, you increase the chances of committing mistakes.
+* When you use different programs each with several steps, you need to manipulate the data to use it with the different programs and to save processed data for intermediate steps. While doing so, you increase the chances of committing mistakes.
 * It is very difficult to document the data analysis procedures when using a menu-driven program. When using a command-driven program, your code for analysis is the analysis documentation itself.
 * If you use menu-driven programs and commit a mistake, because most probably you will not have a precise documentation of your analysis, you could never realize that you commited a mistake.
 * If you use menu-driven programs, you have to save all the outputs of your analysis. Hence, you end up with a lot of files with intermediate and final results. In a few days (in some cases even in a few hours or minutes) you will loose track of what you did and how you did it.
@@ -78,9 +78,9 @@ Reproducibility is the key word
 
 If you work with a command-driven program and follow these recommendations, you must end up with only two files, one with the raw data and one with the code for processing and analysing the data. The key idea here is that anyone with these two files must be able to reproduce your analysis and therefore to get exactly the same results you got, no matter how complicated the analysis is. This is the concept of reproducibility. Reproducibility is important because:
 
-* It helps to prevent/correct errors. The more the people that reproduce your analysis, the higher the chances of detecting and correcting mistakes.
-* It makes analysis transparent.
-* It is in itself a documentation of the analysis, very useful for future references.
+* It helps to prevent and correct errors. The more the people that reproduce your analysis, the higher the chances of detecting and correcting mistakes.
+* It makes analysis transparent, no black boxes.
+* As a consequence, you get a complete documentation of the analysis, very useful for future references.
 * It helps us to save time, a lot of time.
 
 If you are still not convinced about the importance of reproducibility, then maybe you should see [this video](http://videolectures.net/cancerbioinformatics2010_baggerly_irrh/).
