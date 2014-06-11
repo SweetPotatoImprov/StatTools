@@ -6,7 +6,7 @@
 ## packages
 
 checkPkgs <- function() {
-  req.pkgs <- c("gWidgetsRGtk2", "cairoDevice")
+  req.pkgs <- c("lme4", "Rcpp")
   inst.pkgs <- req.pkgs %in% .packages(all.available = TRUE)
   
   if(any(!inst.pkgs)) {
