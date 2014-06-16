@@ -25,7 +25,7 @@ sf     : Selected fraction, defaults to 0.1.
 ### Details
 
 The Pesek Baker (Pesek, J. and R.J. Baker., 1969) is an index where relative economic weights have been
-replaced by desired gains. See the `PesekBaker.pdf` file for more details.
+replaced by desired gains.
 
 If `dgg` is not specified, the standard deviations of the traits are used. It means that
 the desired genetic gain is equal to one standard deviation for each trait.

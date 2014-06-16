@@ -22,7 +22,6 @@ lb     : Lower bound. 1 for k=min(x) and 2 for k=(n*min(x) - max(x))/(n-1)
 ### Details
 
 The Elston index (Elston, R. C., 1963) is a weight free index.
-See the `Elston.pdf` file for more details.
 
 ### Value
 
