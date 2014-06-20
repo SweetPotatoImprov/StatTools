@@ -8,7 +8,7 @@ Function to compute the Pesek-Baker index.
 ### Usage
 
 ```{r eval=F}
-PesekBaker(traits, geno, env, rep, data, dgg=NULL, sf=0.1)
+PesekBaker(traits, geno, env, rep, data, dgg=NULL, units='sdu', sf=0.1)
 ```
 ### Arguments
 
@@ -18,7 +18,8 @@ geno   : Genotypes.
 env    : Environments.
 rep    : Replications or blocks.
 data   : Data frame containing the data.
-dgg    : Desired genetic gains, defaults to standard deviations.
+dgg    : Desired genetic gains, defaults to one standard deviation.
+units  : Units for dgg, 'actual' or 'sdu'. See details for more information. 
 sf     : Selected fraction, defaults to 0.1.
 ```
 
@@ -28,23 +29,31 @@ The Pesek Baker (Pesek, J. and R.J. Baker., 1969) is an index where relative eco
 replaced by desired gains.
 
 If `dgg` is not specified, the standard deviations of the traits are used. It means that
-the desired genetic gain is equal to one standard deviation for each trait.
+the desired genetic gain is equal to one standard deviation for each trait. `dgg` can be specified
+in actual units (`actual`) or in standard deviations (`sdu`), defaults to `sdu`.
+For example, if you have a trait which is expressed in kilograms and with a standard deviation of
+5 kilograms, putting `dgg` equal to 2 means a desired genetic gain of 2 standard deviations, that
+is, 10 kilograms. If you put `dgg` equal to 2 and `units` equal to `actual` then this means a desired
+genetic gain of 2 kilograms. If `dgg` is leave as `NULL` then the desired genetic
+gain will be one standard deviation, which is 5 kilograms, no matter if `units` is set as `actual`
+or `sdu`.
 
 To compute the index the package `lme4` is needed. If it is not installed by sourcing the
-`PesekBaker.R` file you will be asked to install the package.
+`PesekBaker.R` file you will be asked to install the package and dependencies.
 
 ### Value
 
 It returns:
 ```
-Genetic.Variance          : The estimated genetic variances.
+Desired.Genetic.Gains     : The desired genetic gains in actual units.
+Standard.Deviations       : The estimated standard deviations.
+Genetic.Variances         : The estimated genetic variances.
 Correlation.Matrix        : The estimated correlation matrix.
-Covariance.Matrix         : The estimated covariance matrix.
 Index.Coefficients        : The index coefficients.
-Std.Response.to.Selection : The standardized response to selection.
 Response.to.Selection     : The response to selection.
+Std.Response.to.Selection : The standardized response to selection.
 Pesek.Baker.Index         : The Pesek-Baker index value.
-Sorted.Pesek.Baker        : The Pesek-Baker index value sorted in descending order.
+Sorted.Pesek.Baker.Index  : The Pesek-Baker index value sorted in descending order.
 ```
 
 ### Example
