@@ -14,90 +14,90 @@
 
 ## Factors
 
-# L       Locations
-# Y       Year
-# S       Season
-# G       Genotypes
-# NAME    Names for genotypes
-# E       Environments
-# R       Replications or blocks
+# L       : Locations
+# Y       : Year
+# S       : Season
+# G       : Genotypes
+# NAME    : Names for genotypes
+# E       : Environments
+# R       : Replications or blocks
 
 ## Traits
 
-# NOPS		Number of plants planted
-# NOPE		Number of plants established
-# VIR1		Virus symptoms (1-9), first evaluation
-# VIR2		Virus symptoms (1-9), second evaluation
-# ALT1		Alternaria symptoms (1-9), first evaluation
-# ALT2		Alternaria symptoms (1-9), second evaluation
-# VV1		Vine vigor (1-9), first evaluation
-# VW		Vine weight
-# NOPH		Number of plants harvested
-# NOPR		Number of plants with roots
-# NOCR		Number of commercial roots
-# NONC		Number of non commercial roots
-# CRW		Commercial root weight
-# NCRW		Non commercial root weight
-# RFCP		Root primary flesh color
-# RFCS		Root secondary flesh color
-# SCOL		Storage root skin color
-# FCOL		Storage root flesh color
-# RS		Root size (1-9)
-# RF		Root form (1-9)
-# DAMR		Root defects (1-9)
-# WED1		Weevil damage (1-9), first evaluation
-# DMF		Fresh weight of roots for dry matter assessment
-# DMD		Dry weight of DMF samples
-# FRAW1		Root fiber (1-9), first determination
-# SURAW1	Root sugar (1-9), first determination
-# STRAW1	Root starch (1-9), first determination
-# DMVF		Fresh weight vines for dry matter assessment
-# DMVD		Dry weight of DMVF samples
-# COOF1		Cooked fiber (1-9), first evaluation
-# COOSU1	Cooked sugars (1-9), first evaluation
-# COOST1	Cooked starch (1-9), first evaluation
-# COOT1		Cooked taste (1-9), first evaluation
-# COOAP1	Cooked appearance (1-9), first evaluation
-# VV2	  	Vine vigor2 (1-9), second evaluation
-# VIR3		Virus symptoms (1-9), third evaluation
-# WED2		Weevil damage2 (1-9), second evaluation
-# FRAW2		Root fiber (1-9), second determination
-# SURAW2	Root sugar (1-9), second determination
-# STRAW2	Root starch (1-9), second determination
-# COOF2		Cooked fiber (1-9), second evaluation
-# COOSU2	Cooked sugars (1-9), second evaluation
-# COOST2	Cooked starch (1-9), second evaluation
-# COOT2		Cooked taste (1-9), second evaluation
-# COOAP2	Cooked appearance (1-9), second evaluation
-# RSPR		Root sprouting (1-9)
-# PROT		Protein
-# FE	  	Iron in dry weight
-# ZN	  	Zinc in dry weight
-# CA	  	Calcium in dry weight
-# MG	  	Magnesium in dry weight 
-# BC	  	Beta-carotene in dry weight (NIRS)
-# BC.CC  	Beta-carotene with color charts
-# TC	  	Total carotenoids  in dry weight (NIRS)
-# STAR		Starch
-# FRUC		Fructose
-# GLUC		Glucose
-# SUCR		Sucrose
-# MALT		Maltose
-# TRW		Total root weight
-# CYTHA		Commercial root yield t/ ha
-# RYTHA		Total root yield t/ha
-# ACRW		Average commercial root weight = CRW/NOCR
-# NRPP		Number of roots per plant
-# YPP	  	Yield per plant Kg
-# CI	  	Percent marketable roots (commercial index)
-# HI	  	Harvest index
-# SHI	  	Harvest sowing index  (survival)
-# BIOM		Biomass yield
-# FYTHA		Foliage total yield t/ha
-# DM	  	Storage root dry matter content (%)
-# DMFY		Dry matter foliage yield 
-# DMRY		Dry matter root  yield
-# RFR		Root foliage ratio
+# NOPS    : Number of plants planted
+# NOPE    : Number of plants established
+# VIR1    : Virus symptoms (1-9), first evaluation
+# VIR2    : Virus symptoms (1-9), second evaluation
+# ALT1    : Alternaria symptoms (1-9), first evaluation
+# ALT2    : Alternaria symptoms (1-9), second evaluation
+# VV1     : Vine vigor (1-9), first evaluation
+# VW      : Vine weight
+# NOPH    : Number of plants harvested
+# NOPR    : Number of plants with roots
+# NOCR    : Number of commercial roots
+# NONC    : Number of non commercial roots
+# CRW     : Commercial root weight
+# NCRW    : Non commercial root weight
+# RFCP    : Root primary flesh color
+# RFCS    : Root secondary flesh color
+# SCOL    : Storage root skin color
+# FCOL    : Storage root flesh color
+# RS      : Root size (1-9)
+# RF      : Root form (1-9)
+# DAMR    : Root defects (1-9)
+# WED1    : Weevil damage (1-9), first evaluation
+# DMF     : Fresh weight of roots for dry matter assessment
+# DMD     : Dry weight of DMF samples
+# FRAW1   : Root fiber (1-9), first determination
+# SURAW1  : Root sugar (1-9), first determination
+# STRAW1  : Root starch (1-9), first determination
+# DMVF    : Fresh weight vines for dry matter assessment
+# DMVD    : Dry weight of DMVF samples
+# COOF1   : Cooked fiber (1-9), first evaluation
+# COOSU1  : Cooked sugars (1-9), first evaluation
+# COOST1  : Cooked starch (1-9), first evaluation
+# COOT1   : Cooked taste (1-9), first evaluation
+# COOAP1  : Cooked appearance (1-9), first evaluation
+# VV2     : Vine vigor2 (1-9), second evaluation
+# VIR3    : Virus symptoms (1-9), third evaluation
+# WED2    : Weevil damage2 (1-9), second evaluation
+# FRAW2   : Root fiber (1-9), second determination
+# SURAW2  : Root sugar (1-9), second determination
+# STRAW2  : Root starch (1-9), second determination
+# COOF2   : Cooked fiber (1-9), second evaluation
+# COOSU2  : Cooked sugars (1-9), second evaluation
+# COOST2  : Cooked starch (1-9), second evaluation
+# COOT2   : Cooked taste (1-9), second evaluation
+# COOAP2  : Cooked appearance (1-9), second evaluation
+# RSPR    : Root sprouting (1-9)
+# PROT    : Protein
+# FE      : Iron in dry weight
+# ZN      : Zinc in dry weight
+# CA      : Calcium in dry weight
+# MG      : Magnesium in dry weight 
+# BC      : Beta-carotene in dry weight (NIRS)
+# BC.CC   : Beta-carotene with color charts
+# TC      : Total carotenoids  in dry weight (NIRS)
+# STAR    : Starch
+# FRUC    : Fructose
+# GLUC    : Glucose
+# SUCR    : Sucrose
+# MALT    : Maltose
+# TRW     : Total root weight
+# CYTHA   : Commercial root yield t/ ha
+# RYTHA   : Total root yield t/ha
+# ACRW    : Average commercial root weight = CRW/NOCR
+# NRPP    : Number of roots per plant
+# YPP     : Yield per plant Kg
+# CI      : Percent marketable roots (commercial index)
+# HI      : Harvest index
+# SHI     : Harvest sowing index  (survival)
+# BIOM    : Biomass yield
+# FYTHA   : Foliage total yield t/ha
+# DM      : Storage root dry matter content (%)
+# DMFY    : Dry matter foliage yield 
+# DMRY    : Dry matter root  yield
+# RFR     : Root foliage ratio
 
 ## Output
 # A file checks.txt with a list of
