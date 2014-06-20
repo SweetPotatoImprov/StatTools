@@ -61,11 +61,11 @@ Run the following code to load all the functions:
 source('AMMI.R')
 ```
 
-If data for a MET in a RCBD is loaded in a data frame with name `field.data`
+If data for a MET in a RCBD is loaded in a data frame with name `mydata`
 containing a column for trait root yield (`RYTHA`) and columns with names `geno`, `env`,
 and `rep`, the following code will do the job (accepting all the defaults):
 ```{r eval=F}
-AMMI('RYTHA', 'geno', 'env', 'rep', field.data)
+AMMI('RYTHA', 'geno', 'env', 'rep', mydata)
 ```
 
 If the GxE means are loaded in an object with name `int.mean`, the following code will do the job
