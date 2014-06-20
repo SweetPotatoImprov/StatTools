@@ -58,12 +58,12 @@ Sorted.Pesek.Baker.Index  : The Pesek-Baker index value sorted in descending ord
 
 ### Example
 
-If data is loaded in a data frame with name `field.data` containing traits total root yield (`RYTHA`),
+If data is loaded in a data frame with name `mydata` containing traits total root yield (`RYTHA`),
 total biomass (`BIOM`), harvest index (`HI`), and dry matter (`DM`), and columns with names
 `geno`, `env`, and `rep`, the following code will do the job (accepting all the defaults):
 ```{r eval=F}
 source('PesekBaker.R')
-PesekBaker(c('RYTHA', 'BIOM', 'HI', 'DM'), 'geno', 'env', 'rep', field.data)
+PesekBaker(c('RYTHA', 'BIOM', 'HI', 'DM'), 'geno', 'env', 'rep', mydata)
 ```
 
 ### References
