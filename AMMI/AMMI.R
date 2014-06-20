@@ -5,7 +5,7 @@
 
 ## Required functions
 
-source('CheckData.R')
+source("CheckData.R")
 
 ###############################################################################
 # Function 1. Compute AMMI from data at plot level
@@ -158,7 +158,7 @@ AMMIwithMeans <- function(int.mean, rep.num = NULL, rdf = NULL, rms = NULL,
   
   png(filename = file.name1, width = Gsize, height = Gsize)
   par(mar=c(5, 4.5, 4, 2)+.1) 
-  plot(1, type = 'n', xlim = limx, ylim = limy, main = title1, xlab = xlab,
+  plot(1, type = "n", xlim = limx, ylim = limy, main = title1, xlab = xlab,
        ylab = paste("PC1 (",format(PC.cont[1],digits=3),"%)"), ...)
   points(xcorg, G[,1], col = color[2], pch=17, ...)
   text(xcorg, G[,1], labels = rownames(int.mean), col = color[2], pos=1, offset=0.3)
@@ -182,7 +182,7 @@ AMMIwithMeans <- function(int.mean, rep.num = NULL, rdf = NULL, rms = NULL,
   
   png(filename = file.name2, width = Gsize, height = Gsize)
   par(mar=c(5, 4.5, 4, 2)+.1)
-  plot(1, type = 'n', xlim = limx, ylim = limy, main = title2,
+  plot(1, type = "n", xlim = limx, ylim = limy, main = title2,
        xlab = paste("PC1 (",format(PC.cont[1],digits=3),"%)"),
        ylab = paste("PC2 (",format(PC.cont[2],digits=3),"%)"),
        asp=1, ...)

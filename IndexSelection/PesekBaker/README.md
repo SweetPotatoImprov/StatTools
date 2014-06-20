@@ -8,7 +8,7 @@ Function to compute the Pesek-Baker index.
 ### Usage
 
 ```{r eval=F}
-PesekBaker(traits, geno, env, rep, data, dgg=NULL, units='sdu', sf=0.1)
+PesekBaker(traits, geno, env, rep, data, dgg=NULL, units="sdu", sf=0.1)
 ```
 ### Arguments
 
@@ -19,7 +19,7 @@ env    : Environments.
 rep    : Replications or blocks.
 data   : Data frame containing the data.
 dgg    : Desired genetic gains, defaults to one standard deviation.
-units  : Units for dgg, 'actual' or 'sdu'. See details for more information. 
+units  : Units for dgg, "actual" or "sdu". See details for more information. 
 sf     : Selected fraction, defaults to 0.1.
 ```
 
@@ -62,8 +62,8 @@ If data is loaded in a data frame with name `mydata` containing traits total roo
 total biomass (`BIOM`), harvest index (`HI`), and dry matter (`DM`), and columns with names
 `geno`, `env`, and `rep`, the following code will do the job (accepting all the defaults):
 ```{r eval=F}
-source('PesekBaker.R')
-PesekBaker(c('RYTHA', 'BIOM', 'HI', 'DM'), 'geno', 'env', 'rep', mydata)
+source("PesekBaker.R")
+PesekBaker(c("RYTHA", "BIOM", "HI", "DM"), "geno", "env", "rep", mydata)
 ```
 
 ### References

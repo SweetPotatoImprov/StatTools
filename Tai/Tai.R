@@ -6,7 +6,7 @@
 
 ## Required functions
 
-source('CheckData.R')
+source("CheckData.R")
 
 ## Tai function
 
@@ -103,7 +103,7 @@ Tai <- function(trait, geno, env, rep, data, conf=0.95, title = NULL,
       file.name = paste(file.name, ".png", sep="")
 
   png(filename = file.name, width = Gsize, height = Gsize)
-  plot(1, type = 'n', xlim = c(-0.05*lmax, lmax), ylim = c(-amax, amax),
+  plot(1, type = "n", xlim = c(-0.05*lmax, lmax), ylim = c(-amax, amax),
        main = title, xlab = expression(lambda), ylab = expression(alpha), ...)
   points(lambda, alpha, col = color[1], lwd = 2, pch=4, ...)
   text(lambda, alpha, labels = names(alpha), col = color[2], pos=1, offset=.3)

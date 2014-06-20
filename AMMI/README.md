@@ -31,7 +31,7 @@ rep.num    : Number of replications.
 rdf        : Residual degrees of freedom.
 rms        : Residual mean square.
 f          : Scaling factor, defaults to 0.5.
-biplot1    : Choose 'effects' or 'means' for biplot1.
+biplot1    : Choose "effects" or "means" for biplot1.
 title1     : Main title for biplot1.
 title2     : Main title for biplot2.
 file.name1 : File name for biplot1.
@@ -58,14 +58,14 @@ are specified.
 Run the following code to load all the functions:
 
 ```{r eval=F}
-source('AMMI.R')
+source("AMMI.R")
 ```
 
 If data for a MET in a RCBD is loaded in a data frame with name `mydata`
 containing a column for trait root yield (`RYTHA`) and columns with names `geno`, `env`,
 and `rep`, the following code will do the job (accepting all the defaults):
 ```{r eval=F}
-AMMI('RYTHA', 'geno', 'env', 'rep', mydata)
+AMMI("RYTHA", "geno", "env", "rep", mydata)
 ```
 
 If the GxE means are loaded in an object with name `int.mean`, the following code will do the job

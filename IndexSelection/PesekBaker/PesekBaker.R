@@ -27,7 +27,7 @@ require(lme4)
 
 ## PesekBaker function
 
-PesekBaker <- function(traits, geno, env, rep, data, dgg=NULL, units='sdu', sf=0.1) {
+PesekBaker <- function(traits, geno, env, rep, data, dgg=NULL, units="sdu", sf=0.1) {
   
   # inits
   
@@ -66,7 +66,7 @@ PesekBaker <- function(traits, geno, env, rep, data, dgg=NULL, units='sdu', sf=0
   # compute index coefficients
   
   if (is.null(dgg)==TRUE) dgg <- gv^.5 else
-    if (units=='sdu') dgg <- dgg*gv^.5
+    if (units=="sdu") dgg <- dgg*gv^.5
   b <- solve(G)%*%dgg
   dimnames(b) <- list(dimnames(corr)[[1]], "coef")
   

@@ -41,14 +41,14 @@ genotype. The plot is saved in the working directory as a png file.
 Run the following code to load all the necessary functions:
 
 ```{r eval=F}
-source('Tai.R')
+source("Tai.R")
 ```
 
 If data for a MET in a RCBD is loaded in a data frame with name `mydata`
 containing a column for trait root yield (`RYTHA`) and columns with names `geno`, `env`,
 and `rep`, the following code will do the job (accepting all the defaults):
 ```{r eval=F}
-Tai('RYTHA', 'geno', 'env', 'rep', mydata)
+Tai("RYTHA", "geno", "env", "rep", mydata)
 ```
 
 ### References

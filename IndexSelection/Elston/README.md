@@ -37,8 +37,8 @@ If data is loaded in a data frame with name `mydata` containing traits total roo
 total biomass (`BIOM`), harvest index (`HI`), and dry matter (`DM`), and a column with name
 `geno` for genotypes, the following code will do the job (accepting the defaults):
 ```{r eval=F}
-source('Elston.R')
-Elston(c('RYTHA', 'BIOM', 'HI', 'DM'), 'geno', mydata)
+source("Elston.R")
+Elston(c("RYTHA", "BIOM", "HI", "DM"), "geno", mydata)
 ```
 
 ### References
