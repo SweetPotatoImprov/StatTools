@@ -8,7 +8,7 @@ Function to compute the Pesek-Baker index.
 ### Usage
 
 ```{r eval=F}
-PesekBaker(traits, geno, env, rep, data, dgg=NULL, units="sdu", sf=0.1)
+PesekBaker(traits, geno, env, rep, data, dgg = NULL, units = "sdu", sf = 0.1)
 ```
 ### Arguments
 

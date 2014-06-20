@@ -10,10 +10,10 @@ function `mve.rcbd.met` estimates missing values for a Multi Environment Trial (
 ### Usage
 
 ```{r eval=F}
-mve.rcbd(trait, geno, rep, data, maxp=0.05, tol=1e-06)
+mve.rcbd(trait, geno, rep, data, maxp = 0.05, tol = 1e-06)
 ```
 ```{r eval=F}
-mve.rcbd.met(trait, geno, env, rep, data, maxp=0.05, tol=1e-06)
+mve.rcbd.met(trait, geno, env, rep, data, maxp = 0.05, tol = 1e-06)
 ```
 
 ### Arguments

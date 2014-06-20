@@ -8,7 +8,7 @@ Function to run the Tai stability analysis (Tai, G. C. C., 1971).
 ### Usage
 
 ```{r eval=F}
-Tai(trait, geno, env, rep, data, conf=0.95, title = NULL, file.name = NULL,
+Tai(trait, geno, env, rep, data, conf = 0.95, title = NULL, file.name = NULL,
     color = c("darkorange", "black", "gray"), Gsize = 600, ...)
 ```
 

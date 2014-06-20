@@ -27,13 +27,13 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, biplot1 = "effects",
   
   # Error messages
   
-  if (lc$c1==0)
+  if (lc$c1 == 0)
     stop("Error: Some GxE cells have zero frequency. Remove genotypes or environments to proceed.")
   
-  if (lc$c1==1 & lc$c2==0)
+  if (lc$c1 == 1 & lc$c2 == 0)
     warning("Warning: There is only one replication. Inference is not possible with one replication.")
   
-  if (lc$c1==1 & lc$c2==1 & lc$c3==0)
+  if (lc$c1 == 1 & lc$c2 == 1 & lc$c3 == 0)
     warning("Warning: The data set is unbalanced. Significance of PCs is not evaluated.")
 
   geno.num <- nlevels(data[,geno])
@@ -48,7 +48,7 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, biplot1 = "effects",
   
   # Compute interaction means matrix
   
-  int.mean <- tapply(data[,trait], list(data[,geno], data[,env]), mean, na.rm=T)
+  int.mean <- tapply(data[,trait], list(data[,geno], data[,env]), mean, na.rm = T)
   
   # Compute ANOVA
   
@@ -122,7 +122,7 @@ AMMIwithMeans <- function(int.mean, rep.num = NULL, rdf = NULL, rms = NULL,
   }
   if (is.null(rms) == 0 & is.null(rdf) == 0){
     F <- MS/rms
-    probab <- pf(F, PC.DF, rdf, lower.tail=FALSE)
+    probab <- pf(F, PC.DF, rdf, lower.tail = FALSE)
     rowlab <- PC.num
     tablaPC <- cbind(tablaPC, PC.DF, PC.SS, MS, F, probab)
     colnames(tablaPC)[5:9] <- c("df", "SumSq", "MeanSq", "Fvalue", "Pr(>F)")
@@ -131,11 +131,11 @@ AMMIwithMeans <- function(int.mean, rep.num = NULL, rdf = NULL, rms = NULL,
   #  Biplot 1
   
   if (is.null(title1) == 1)
-    title1 = paste("AMMI biplot1 for ", trait, sep="")  
+    title1 = paste("AMMI biplot1 for ", trait, sep = "")  
   
   if (is.null(file.name1) == 1)
-    file.name1 = paste("AMMI1_biplot_", trait, ".png", sep="") else
-      file.name1 = paste(file.name1, ".png", sep="")
+    file.name1 = paste("AMMI1_biplot_", trait, ".png", sep = "") else
+      file.name1 = paste(file.name1, ".png", sep = "")
   
   if (biplot1 == "effects"){
     maxx <- max(abs(c(env.mean-overall.mean, geno.mean-overall.mean)))*1.05
@@ -157,41 +157,41 @@ AMMIwithMeans <- function(int.mean, rep.num = NULL, rdf = NULL, rms = NULL,
   limy <- c(-max(abs(c(E[,1], G[,1]))), max(abs(c(E[,1], G[,1]))))
   
   png(filename = file.name1, width = Gsize, height = Gsize)
-  par(mar=c(5, 4.5, 4, 2)+.1) 
+  par(mar = c(5, 4.5, 4, 2)+.1) 
   plot(1, type = "n", xlim = limx, ylim = limy, main = title1, xlab = xlab,
-       ylab = paste("PC1 (",format(PC.cont[1],digits=3),"%)"), ...)
-  points(xcorg, G[,1], col = color[2], pch=17, ...)
-  text(xcorg, G[,1], labels = rownames(int.mean), col = color[2], pos=1, offset=0.3)
-  points(xcore, E[,1], col = color[1], pch=15, ...)
-  text(xcore, E[,1], labels = colnames(int.mean), col = color[1], pos=1, offset=.3)
-  abline(h = 0, v = xline, col=color[3], lty = 2)
+       ylab = paste("PC1 (",format(PC.cont[1],digits = 3),"%)"), ...)
+  points(xcorg, G[,1], col = color[2], pch = 17, ...)
+  text(xcorg, G[,1], labels = rownames(int.mean), col = color[2], pos = 1, offset = 0.3)
+  points(xcore, E[,1], col = color[1], pch = 15, ...)
+  text(xcore, E[,1], labels = colnames(int.mean), col = color[1], pos = 1, offset = .3)
+  abline(h = 0, v = xline, col = color[3], lty = 2)
   dev.off()
   
   # Biplot 2
   
   if (is.null(title2) == 1)
-    title2 = paste("AMMI biplot2 for ", trait, sep="")
+    title2 = paste("AMMI biplot2 for ", trait, sep = "")
   
   if (is.null(file.name2) == 1)
-    file.name2 = paste("AMMI2_biplot_", trait, ".png", sep="") else
-      file.name2 = paste(file.name2, ".png", sep="")
+    file.name2 = paste("AMMI2_biplot_", trait, ".png", sep = "") else
+      file.name2 = paste(file.name2, ".png", sep = "")
 
   limx <- range(c(E[,1], G[,1]))
   limx <- limx + c(-max(abs(limx)), max(abs(limx)))*.05
   limy <- range(c(E[,2], G[,2]))
   
   png(filename = file.name2, width = Gsize, height = Gsize)
-  par(mar=c(5, 4.5, 4, 2)+.1)
+  par(mar = c(5, 4.5, 4, 2)+.1)
   plot(1, type = "n", xlim = limx, ylim = limy, main = title2,
-       xlab = paste("PC1 (",format(PC.cont[1],digits=3),"%)"),
-       ylab = paste("PC2 (",format(PC.cont[2],digits=3),"%)"),
-       asp=1, ...)
-  points(G[,1], G[,2], col = color[2], pch=17, ...)
-  text(G[,1], G[,2], labels = rownames(int.mean), col = color[2], pos=1, offset=.3)
-  points(E[,1], E[,2], col = color[1], pch=15, ...)
-  text(E[,1], E[,2], labels = colnames(int.mean), col = color[1], pos=1, offset=.3)
-  abline(h = 0, v = 0, col=color[3], lty = 2)
-  for (i in 1:env.num) lines(c(0,E[i,1]), c(0,E[i,2]), col=color[1], lty=3)
+       xlab = paste("PC1 (", format(PC.cont[1], digits = 3), "%)"),
+       ylab = paste("PC2 (", format(PC.cont[2], digits = 3), "%)"),
+       asp = 1, ...)
+  points(G[,1], G[,2], col = color[2], pch = 17, ...)
+  text(G[,1], G[,2], labels = rownames(int.mean), col = color[2], pos = 1, offset = .3)
+  points(E[,1], E[,2], col = color[1], pch = 15, ...)
+  text(E[,1], E[,2], labels = colnames(int.mean), col = color[1], pos = 1, offset = .3)
+  abline(h = 0, v = 0, col = color[3], lty = 2)
+  for (i in 1:env.num) lines(c(0,E[i,1]), c(0,E[i,2]), col = color[1], lty = 3)
   dev.off()
   
   # Output

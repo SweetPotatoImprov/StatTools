@@ -14,8 +14,8 @@ For example, if the data are in a csv file with name `mydata.csv`, `NOPS` is 3, 
 `plot.size` is 0.81, the following code will do the job:
 
 ```{r eval=F}
-mydata <- read.csv("mydata.csv", header=T)
+mydata <- read.csv("mydata.csv", header = T)
 NOPS <- 3
 plot.size <- 0.81
-source("checkconsis.R", echo=F, print.eval=T)
+source("checkconsis.R", echo = F, print.eval = T)
 ```

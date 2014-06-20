@@ -27,7 +27,7 @@ require(lme4)
 
 ## PesekBaker function
 
-PesekBaker <- function(traits, geno, env, rep, data, dgg=NULL, units="sdu", sf=0.1) {
+PesekBaker <- function(traits, geno, env, rep, data, dgg = NULL, units = "sdu", sf = 0.1) {
   
   # inits
   
@@ -42,8 +42,8 @@ PesekBaker <- function(traits, geno, env, rep, data, dgg=NULL, units="sdu", sf=0
   # fitted models by REML  
 
   for (i in 1:nt){
-    abc <- data.frame(c1=data[,traits[i]], c2=data[,geno], c3=data[,env], c4=data[,rep])
-    model <- lmer(c1 ~ (1|c2) + (1|c2:c3) + (1|c3/c4), data=abc)
+    abc <- data.frame(c1 = data[,traits[i]], c2 = data[,geno], c3 = data[,env], c4 = data[,rep])
+    model <- lmer(c1 ~ (1|c2) + (1|c2:c3) + (1|c3/c4), data = abc)
     gv[i] <- VarCorr(model)$c2[1]
     pv[i] <- VarCorr(model)$c2[1] + VarCorr(model)$'c2:c3'[1]/ne +
       attr(VarCorr(model), "sc")^2/ne/nr
@@ -53,9 +53,9 @@ PesekBaker <- function(traits, geno, env, rep, data, dgg=NULL, units="sdu", sf=0
   
   df <- data[,c(sapply(traits, c), env, rep)] 
   df <- split(df, factor(paste(data[,env], data[,rep]))) # split by env and rep
-  corr <- cor(df[[1]][,1:nt], use="pairwise.complete.obs")
+  corr <- cor(df[[1]][,1:nt], use = "pairwise.complete.obs")
   for (i in 2:length(df))
-    corr <- corr + cor(df[[i]][,1:nt], use="pairwise.complete.obs")
+    corr <- corr + cor(df[[i]][,1:nt], use = "pairwise.complete.obs")
   corr <- corr/length(df)
   S <- diag(gv^.5, nt, nt)
   G <- S%*%corr%*%S
@@ -65,8 +65,8 @@ PesekBaker <- function(traits, geno, env, rep, data, dgg=NULL, units="sdu", sf=0
   
   # compute index coefficients
   
-  if (is.null(dgg)==TRUE) dgg <- gv^.5 else
-    if (units=="sdu") dgg <- dgg*gv^.5
+  if (is.null(dgg) == TRUE) dgg <- gv^.5 else
+    if (units == "sdu") dgg <- dgg*gv^.5
   b <- solve(G)%*%dgg
   dimnames(b) <- list(dimnames(corr)[[1]], "coef")
   
@@ -82,7 +82,7 @@ PesekBaker <- function(traits, geno, env, rep, data, dgg=NULL, units="sdu", sf=0
   
   m <- matrix(NA, ng, nt)
   for (i in 1:nt)
-    m[,i] <- tapply(data[,traits[i]], data[,geno], mean, na.rm=T)
+    m[,i] <- tapply(data[,traits[i]], data[,geno], mean, na.rm = T)
   indices <- m %*% b
   rownames(indices) <- levels(data[,geno])
   colnames(indices) <- "PesekBakerIndex"
@@ -94,8 +94,8 @@ PesekBaker <- function(traits, geno, env, rep, data, dgg=NULL, units="sdu", sf=0
   
   # results
   
-  list(Desired.Genetic.Gains=dgg, Standard.Deviations=gv^.5, Genetic.Variances=gv,
-       Correlation.Matrix=corr, Index.Coefficients=b,
-       Response.to.Selection=rsa, Std.Response.to.Selection=rs,
-       Pesek.Baker.Index=indices, Sorted.Pesek.Baker.Index=sort.ind)
+  list(Desired.Genetic.Gains = dgg, Standard.Deviations = gv^.5, Genetic.Variances = gv,
+       Correlation.Matrix = corr, Index.Coefficients = b,
+       Response.to.Selection = rsa, Std.Response.to.Selection = rs,
+       Pesek.Baker.Index = indices, Sorted.Pesek.Baker.Index = sort.ind)
 }

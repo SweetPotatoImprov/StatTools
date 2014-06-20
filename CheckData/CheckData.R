@@ -29,7 +29,7 @@ CheckData01 <- function(trait, geno, rep, data){
   
   # Return
   
-  list(c1=c1, c2=c2, c3=c3, nmis=nmis)
+  list(c1 = c1, c2 = c2, c3 = c3, nmis = nmis)
 }
 
 ###############################################################################
@@ -58,5 +58,5 @@ CheckData02 <- function(trait, geno, env, rep, data){
   
   # Return
   
-  list(c1=c1, c2=c2, c3=c3, nmis=nmis)
+  list(c1 = c1, c2 = c2, c3 = c3, nmis = nmis)
 }

@@ -10,7 +10,7 @@ source("CheckData.R")
 
 ## Tai function
 
-Tai <- function(trait, geno, env, rep, data, conf=0.95, title = NULL,
+Tai <- function(trait, geno, env, rep, data, conf = 0.95, title = NULL,
                 file.name = NULL, color = c("darkorange", "black", "gray"),
                 Gsize = 600, ...){
   
@@ -26,13 +26,13 @@ Tai <- function(trait, geno, env, rep, data, conf=0.95, title = NULL,
   
   # Error messages
   
-  if (lc$c1==0)
+  if (lc$c1 == 0)
     stop("Error: Some GxE cells have zero frequency. Remove genotypes or environments to proceed.")
   
-  if (lc$c1==1 & lc$c2==0)
+  if (lc$c1 == 1 & lc$c2 == 0)
     warning("Warning: There is only one replication. Inference is not possible with one replication.")
   
-  if (lc$c1==1 & lc$c2==1 & lc$c3==0)
+  if (lc$c1 == 1 & lc$c2 == 1 & lc$c3 == 0)
     warning("Warning: The data set is unbalanced.")
   
   geno.num <- nlevels(data[,geno])
@@ -47,7 +47,7 @@ Tai <- function(trait, geno, env, rep, data, conf=0.95, title = NULL,
   
   # Compute interaction effects matrix
     
-  int.mean <- tapply(data[,trait], list(data[,geno], data[,env]), mean, na.rm=T)
+  int.mean <- tapply(data[,trait], list(data[,geno], data[,env]), mean, na.rm = T)
   
   overall.mean <- mean(int.mean)
   env.mean <- apply(int.mean, 2, mean)
@@ -96,19 +96,19 @@ Tai <- function(trait, geno, env, rep, data, conf=0.95, title = NULL,
   # Tai plot
   
   if (is.null(title) == 1)
-    title = paste("Tai stability analysis for ", trait, sep="")  
+    title = paste("Tai stability analysis for ", trait, sep = "")  
   
   if (is.null(file.name) == 1)
-    file.name = paste("tai_", trait, ".png", sep="") else
-      file.name = paste(file.name, ".png", sep="")
+    file.name = paste("tai_", trait, ".png", sep = "") else
+      file.name = paste(file.name, ".png", sep = "")
 
   png(filename = file.name, width = Gsize, height = Gsize)
   plot(1, type = "n", xlim = c(-0.05*lmax, lmax), ylim = c(-amax, amax),
        main = title, xlab = expression(lambda), ylab = expression(alpha), ...)
-  points(lambda, alpha, col = color[1], lwd = 2, pch=4, ...)
-  text(lambda, alpha, labels = names(alpha), col = color[2], pos=1, offset=.3)
-  points(lx, pi.alpha, type="l", lty = 3, col = color[3])
-  points(lx, -pi.alpha, type="l", lty = 3, col = color[3])
+  points(lambda, alpha, col = color[1], lwd = 2, pch = 4, ...)
+  text(lambda, alpha, labels = names(alpha), col = color[2], pos = 1, offset = .3)
+  points(lx, pi.alpha, type = "l", lty = 3, col = color[3])
+  points(lx, -pi.alpha, type = "l", lty = 3, col = color[3])
   abline(v = qf((1-conf)/2, env.num-2, env.num*(geno.num)*(rep.num-1)),
          lty = 3, col = color[3])
   abline(v = qf(1-(1-conf)/2, env.num-2, env.num*(geno.num)*(rep.num-1)),

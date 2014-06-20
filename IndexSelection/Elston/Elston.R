@@ -3,7 +3,7 @@
 # Raul H. Eyzaguirre P.
 ###############################################################################
 
-Elston <- function(traits, geno, data, lb=1) {
+Elston <- function(traits, geno, data, lb = 1) {
   
   # inits
   
@@ -13,21 +13,21 @@ Elston <- function(traits, geno, data, lb=1) {
   
   # compute standardized means
 
-  df <- data.frame(tapply(data[,traits[1]], data[,geno], mean, na.rm=T))
+  df <- data.frame(tapply(data[,traits[1]], data[,geno], mean, na.rm = T))
   if (nt > 1){
     for (i in 2:nt)
-      df <- cbind(df, tapply(data[,traits[i]], data[,geno], mean, na.rm=T))
+      df <- cbind(df, tapply(data[,traits[i]], data[,geno], mean, na.rm = T))
     for (i in 1:nt)
       df[,i+nt] <- (df[,i] - mean(df[,i]))/sd(df[,i])    
   }
   
   # compute lower bounds
   
-  if (lb==1)
+  if (lb == 1)
     for (i in 1:nt)
       k[i] <- min(df[,nt+i])
   
-  if (lb==2)
+  if (lb == 2)
     for (i in 1:nt)
       k[i] <- (ng * min(df[,nt+i]) - max(df[,nt+i]))/(ng-1)
   
@@ -42,5 +42,5 @@ Elston <- function(traits, geno, data, lb=1) {
     
   # results
   
-  list(Elston.Index=df$EI, Sorted.Elston.Index=df$EI[orden])
+  list(Elston.Index = df$EI, Sorted.Elston.Index = df$EI[orden])
 }

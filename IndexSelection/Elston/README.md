@@ -8,7 +8,7 @@ Function to compute the Elston index.
 ### Usage
 
 ```{r eval=F}
-Elston(traits, geno, data, lb=1)
+Elston(traits, geno, data, lb = 1)
 ```
 ### Arguments
 
@@ -16,7 +16,7 @@ Elston(traits, geno, data, lb=1)
 traits : List of traits.
 geno   : Genotypes.
 data   : Data frame containing the data.
-lb     : Lower bound. 1 for k=min(x) and 2 for k=(n*min(x) - max(x))/(n-1)
+lb     : Lower bound. 1 for k = min(x) and 2 for k = (n*min(x) - max(x))/(n-1)
 ```
 
 ### Details
