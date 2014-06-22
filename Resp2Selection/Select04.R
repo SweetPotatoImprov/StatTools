@@ -6,17 +6,15 @@
 ## packages
 
 checkPkgs <- function() {
-  req.pkgs <- c("gWidgetsRGtk2", "cairoDevice")
-  inst.pkgs <- req.pkgs %in% .packages(all.available = TRUE)
-  
-  if(any(!inst.pkgs)) {
+  required <- c("gWidgetsRGtk2", "cairoDevice")
+  installed <- required %in% .packages(all.available = TRUE)
+  if(any(!installed)) {
     cat("Some packages need to be installed\n")
     r <- readline("Install necessary packages [y/n]? ")
     if(tolower(r) == "y") {
-      need <- pkgs[!inst.pkgs]
       message("installing packages ",
-              paste(need, collapse = ", "))
-      install.packages(need)
+              paste(required[!installed], collapse = ", "))
+      install.packages(required[!installed])
     }
   }
 }
