@@ -104,6 +104,8 @@
 # - all rows with some kind of inconsistency
 # - all rows with outliers
 
+options(width=240)
+
 sink("checks.txt")
 
 ## NOPS > NOPE > NOPH > NOPR
