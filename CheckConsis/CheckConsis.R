@@ -1165,6 +1165,12 @@ if (exists("BC", where=mydata)==1)
 		subset(mydata, BC > quantile(BC, 0.75, na.rm=T)+3*IQR(BC, na.rm=T))
 	}
 
+if (exists("BC.CC", where=mydata)==1)
+  if (dim(subset(mydata, BC.CC < 0 | BC.CC > 14.37))[1]>0){
+    cat("\n","Out of range values for beta-carotene with color chart (BC.CC):","\n")
+    subset(mydata, BC.CC < 0 | BC.CC > 14.37)
+  }
+
 if (exists("TC", where=mydata)==1)
 	if (dim(subset(mydata, TC < 0))[1]>0){
 		cat("\n","Out of range values for total carotenoids in dry weight (TC):","\n")
