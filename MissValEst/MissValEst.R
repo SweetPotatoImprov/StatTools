@@ -5,7 +5,8 @@
 
 ## Required functions
 
-source("CheckData.R")
+if ('CheckData01' %in% lsf.str() == F | 'CheckData02' %in% lsf.str() == F)
+  source("CheckData.R")
 
 ###############################################################################
 # Function 1: Estimation of missing values in a RCBD

@@ -6,7 +6,7 @@
 
 ## Required functions
 
-source("CheckData.R")
+if ('CheckData02' %in% lsf.str() == F) source("CheckData.R")
 
 ## Tai function
 
