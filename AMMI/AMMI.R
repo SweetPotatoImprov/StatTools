@@ -65,8 +65,8 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, biplot1 = "effects",
   
   # Run AMMIwithMeans
   
-  AMMIwithMeans(int.mean, rep.num = rep.num, rdf = rdf, rms = rms, f = f,
-                biplot1 = biplot1, title1 = title1, title2 = title2,
+  AMMIwithMeans(int.mean, trait = trait, rep.num = rep.num, rdf = rdf, rms = rms,
+                f = f, biplot1 = biplot1, title1 = title1, title2 = title2,
                 file.name1 = file.name1, file.name2 = file.name2,
                 color = color, Gsize = Gsize, ...)
 }
@@ -75,8 +75,8 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, biplot1 = "effects",
 # Function 2. Compute AMMI from an interaction means matrix
 ###############################################################################
 
-AMMIwithMeans <- function(int.mean, rep.num = NULL, rdf = NULL, rms = NULL,
-                          f = .5, biplot1 = "effects", title1 = NULL,
+AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL, rdf = NULL,
+                          rms = NULL, f = .5, biplot1 = "effects", title1 = NULL,
                           title2 = NULL, file.name1 = NULL, file.name2 = NULL, 
                           color = c("darkorange", "black", "gray"),
                           Gsize = 600, ...){
