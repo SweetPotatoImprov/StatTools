@@ -21,7 +21,7 @@ checkPkgs <- function() {
 
 checkPkgs()
 
-require(lme4)
+library(lme4)
 
 ## PesekBaker function
 

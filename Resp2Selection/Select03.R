@@ -21,8 +21,8 @@ checkPkgs <- function() {
 
 checkPkgs()
 
-require(gWidgetsRGtk2)
-require(cairoDevice)
+library(gWidgetsRGtk2)
+library(cairoDevice)
 options("guiToolkit"="RGtk2")
 
 ## Drawing function
