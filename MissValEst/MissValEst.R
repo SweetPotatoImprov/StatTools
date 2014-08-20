@@ -6,7 +6,10 @@
 ## Required functions
 
 if ('CheckData01' %in% lsf.str() == F | 'CheckData02' %in% lsf.str() == F)
-  source("CheckData.R")
+  if ('CheckData.R' %in% list.files() == T) source("CheckData.R") else {
+    urlfile <- 'https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/CheckData/CheckData.R'
+    source(urlfile)
+  }
 
 ###############################################################################
 # Function 1: Estimation of missing values in a RCBD
