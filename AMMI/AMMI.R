@@ -5,8 +5,12 @@
 
 ## Required functions
 
-if ('CheckData02' %in% lsf.str() == F) source("CheckData.R")
-
+if ('CheckData02' %in% lsf.str() == F)
+  if ('CheckData.R' %in% list.files() == T) source("CheckData.R") else {
+    urlfile <- 'https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/CheckData/CheckData.R'
+    source(urlfile)
+  }
+    
 ###############################################################################
 # Function 1. Compute AMMI from data at plot level
 ###############################################################################
