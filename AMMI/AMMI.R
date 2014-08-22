@@ -16,7 +16,8 @@ if ('CheckData02' %in% lsf.str() == F)
 ###############################################################################
 
 AMMI <- function(trait, geno, env, rep, data, f = .5, biplot1 = "effects",
-                 title1 = NULL, title2 = NULL, file.name1 = NULL, file.name2 = NULL,
+                 file.name1 = NULL, file.name2 = NULL,
+                 title1 = NULL, title2 = NULL, xlab1 = NULL,
                  color = c("darkorange", "black", "gray"), Gsize = 600, ...){
   
   # Everything as factor
@@ -69,10 +70,10 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, biplot1 = "effects",
   
   # Run AMMIwithMeans
   
-  AMMIwithMeans(int.mean, trait = trait, rep.num = rep.num, rdf = rdf, rms = rms,
-                f = f, biplot1 = biplot1, title1 = title1, title2 = title2,
-                file.name1 = file.name1, file.name2 = file.name2,
-                color = color, Gsize = Gsize, ...)
+  AMMIwithMeans(int.mean, trait = trait, rep.num = rep.num, rdf = rdf,
+                rms = rms, f = f, biplot1 = biplot1, file.name1 = file.name1,
+                file.name2 = file.name2, title1 = title1, title2 = title2,
+                xlab1 = xlab1, color = color, Gsize = Gsize, ...)
 }
 
 ###############################################################################
@@ -80,9 +81,9 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, biplot1 = "effects",
 ###############################################################################
 
 AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL, rdf = NULL,
-                          rms = NULL, f = .5, biplot1 = "effects", title1 = NULL,
-                          title2 = NULL, file.name1 = NULL, file.name2 = NULL, 
-                          color = c("darkorange", "black", "gray"),
+                          rms = NULL, f = .5, biplot1 = "effects", file.name1 = NULL,
+                          file.name2 = NULL, title1 = NULL, title2 = NULL,
+                          xlab1 = xlab1, color = c("darkorange", "black", "gray"),
                           Gsize = 600, ...){
   
   # Data
@@ -144,7 +145,8 @@ AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL, rdf = NULL,
   if (biplot1 == "effects"){
     maxx <- max(abs(c(env.mean-overall.mean, geno.mean-overall.mean)))*1.05
     limx <- c(-maxx, maxx)
-    xlab = "Genotype and environment effects"
+    if (is.null(xlab1) == 1)
+      xlab1 = "Genotype and environment effects"    
     xcorg = geno.mean-overall.mean
     xcore = env.mean-overall.mean    
     xline = 0
@@ -152,7 +154,8 @@ AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL, rdf = NULL,
   if (biplot1 == "means"){
     limx <- range(c(env.mean, geno.mean))
     limx <- limx + c(-max(abs(limx)), max(abs(limx)))*.05
-    xlab = "Genotype and environment means"
+    if (is.null(xlab1) == 1)
+      xlab1 = "Genotype and environment means"    
     xcorg = geno.mean
     xcore = env.mean
     xline = overall.mean
@@ -162,7 +165,7 @@ AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL, rdf = NULL,
   
   png(filename = file.name1, width = Gsize, height = Gsize)
   par(mar = c(5, 4.5, 4, 2)+.1) 
-  plot(1, type = "n", xlim = limx, ylim = limy, main = title1, xlab = xlab,
+  plot(1, type = "n", xlim = limx, ylim = limy, main = title1, xlab = xlab1,
        ylab = paste("PC1 (",format(PC.cont[1],digits = 3),"%)"), ...)
   points(xcorg, G[,1], col = color[2], pch = 17, ...)
   text(xcorg, G[,1], labels = rownames(int.mean), col = color[2], pos = 1, offset = 0.3)
