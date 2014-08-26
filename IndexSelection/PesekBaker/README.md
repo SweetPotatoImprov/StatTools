@@ -58,8 +58,8 @@ Sorted.Pesek.Baker.Index  : The Pesek-Baker index value sorted in descending ord
 
 ### Example
 
-Download the data file `SI_example_small.csv`.
 ```{r eval=F}
+## Download the data file SI_example_small.csv. This works well with RStudio.
 urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/
 IndexSelection/Presentation/SI_example_small.csv"
 mydata <- read.csv(urlfile)
@@ -69,11 +69,12 @@ starch (`STAR`), and number of commercial roots (`NOCR`), and columns with names
 to identify the genotypes, locations and replications. The following code computes the Pesek-Baker index
 accepting all the defaults:
 ```{r eval=F}
-## Download the PesekBaker.R function
+## Download the PesekBaker.R function. This works well with RStudio.
 urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/
 IndexSelection/PesekBaker/PesekBaker.R"
 source(urlfile)
-## Run the function
+
+## Run the function.
 PesekBaker(c("RYTHA", "BC", "DM", "STAR", "NOCR"), "GENO", "LOC", "REP", mydata)
 ```
 

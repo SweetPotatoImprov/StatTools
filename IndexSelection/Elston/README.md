@@ -33,12 +33,27 @@ Sorted.Elston.Index : The Elston index value sorted in descending order.
 
 ### Example
 
-If data is loaded in a data frame with name `mydata` containing traits total root yield (`RYTHA`),
-total biomass (`BIOM`), harvest index (`HI`), and dry matter (`DM`), and a column with name
-`geno` for genotypes, the following code will do the job (accepting the defaults):
 ```{r eval=F}
-source("Elston.R")
-Elston(c("RYTHA", "BIOM", "HI", "DM"), "geno", mydata)
+## Download the data file SI_example_small.csv. This works well with RStudio.
+urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/
+IndexSelection/Presentation/SI_example_small.csv"
+mydata <- read.csv(urlfile)
+
+## Make a subset for one location.
+mydata <- subset(mydata, LOC=="Satipo")
+```
+This file contains data for traits total root yield (`RYTHA`), beta carotene (`BC`), dry matter content (`DM`),
+starch (`STAR`), and number of commercial roots (`NOCR`), and columns with names `GENO`, and `REP`,
+to identify the genotypes and replications. The following code computes the Elston index
+accepting all the defaults:
+```{r eval=F}
+## Download the Elston.R function. This works well with RStudio.
+urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/
+IndexSelection/Elston/Elston.R"
+source(urlfile)
+
+## Run the function.
+Elston(c("RYTHA", "BC", "DM", "STAR", "NOCR"), "GENO", mydata)
 ```
 
 ### References
