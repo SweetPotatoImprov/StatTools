@@ -60,7 +60,8 @@ Sorted.Pesek.Baker.Index  : The Pesek-Baker index value sorted in descending ord
 
 Download the data file `SI_example_small.csv`.
 ```{r eval=F}
-urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/IndexSelection/Presentation/SI_example_small.csv"
+urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/
+IndexSelection/Presentation/SI_example_small.csv"
 mydata <- read.csv(urlfile)
 ```
 This file contains data for traits total root yield (`RYTHA`), beta carotene (`BC`), dry matter content (`DM`),
@@ -69,7 +70,8 @@ to identify the genotypes, locations and replications. The following code comput
 accepting all the defaults:
 ```{r eval=F}
 ## Download the PesekBaker.R function
-urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/IndexSelection/PesekBaker/PesekBaker.R"
+urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/
+IndexSelection/PesekBaker/PesekBaker.R"
 source(urlfile)
 ## Run the function
 PesekBaker(c("RYTHA", "BC", "DM", "STAR", "NOCR"), "GENO", "LOC", "REP", mydata)
