@@ -58,12 +58,21 @@ Sorted.Pesek.Baker.Index  : The Pesek-Baker index value sorted in descending ord
 
 ### Example
 
-If data is loaded in a data frame with name `mydata` containing traits total root yield (`RYTHA`),
-total biomass (`BIOM`), harvest index (`HI`), and dry matter (`DM`), and columns with names
-`geno`, `env`, and `rep`, the following code will do the job (accepting all the defaults):
+Download the data file `SI_example_small.csv`.
 ```{r eval=F}
-source("PesekBaker.R")
-PesekBaker(c("RYTHA", "BIOM", "HI", "DM"), "geno", "env", "rep", mydata)
+urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/IndexSelection/Presentation/SI_example_small.csv"
+mydata <- read.csv(urlfile)
+```
+This file contains data for traits total root yield (`RYTHA`), beta carotene (`BC`), dry matter content (`DM`),
+starch (`STAR`), and number of commercial roots (`NOCR`), and columns with names `GENO`, `LOC`, and `REP`,
+to identify the genotypes, locations and replications. The following code computes the Pesek-Baker index
+accepting all the defaults:
+```{r eval=F}
+## Download the PesekBaker.R function
+urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/IndexSelection/PesekBaker/PesekBaker.R"
+source(urlfile)
+## Run the function
+PesekBaker(c("RYTHA", "BC", "DM", "STAR", "NOCR"), "GENO", "LOC", "REP", mydata)
 ```
 
 ### References
