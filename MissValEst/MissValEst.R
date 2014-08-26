@@ -74,6 +74,8 @@ mve.rcbd <- function(trait, geno, rep, data, maxp = 0.05, tol = 1e-06){
     cc <- max(abs(lc1 - lc2))
   }
   
+  # Return
+  
   list(new.data = data[,c(geno,rep,trait,trait.est)],
        est.num = lc$nmis, est.prop = est.p)
 }
@@ -146,6 +148,8 @@ mve.rcbd.met <- function(trait, geno, env, rep, data, maxp = 0.05, tol = 1e-06){
     lc2 <- subset(data, is.na(data[,trait]) == 1)[,trait.est]
     cc <- max(abs(lc1 - lc2))
   }
+  
+  # Return
   
   list(new.data = data[,c(geno,env,rep,trait,trait.est)],
        est.num = lc$nmis, est.prop = est.p)
