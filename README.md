@@ -17,7 +17,7 @@ Data labels must be defined as specified in the PROCEDURES FOR THE EVALUATION AN
 CheckData
 -------------------------
 
-Set of functions to check experimental data. These functions are needed to check data for posterior analysis with AMMI, Tai, or for missing values estimation.
+Set of functions to check experimental data. These functions are needed to check data for posterior analysis.
 
 GoodDataPractices
 -----------------
@@ -47,4 +47,4 @@ Set of scripts to find the optimum number of replications to get the maximum res
 Tai
 ----------
 
-R code to perform the Tai stability analysis (Tai, G. C. C., 1971).
+Function to perform the Tai stability analysis (Tai, G. C. C., 1971).
