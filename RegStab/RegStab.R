@@ -53,6 +53,16 @@ RegStab <- function(trait, geno, env, rep, data, maxp = 0.05){
    env.mean <- apply(int.mean, 2, mean, na.rm=T)
    geno.mean <- apply(int.mean, 1, mean, na.rm=T)
   
+  # ANOVA
+  
+  add.anova <- aov(data[,trait] ~ data[,geno] + data[,env] + data[,rep] %in% data[,env] + data[,geno]:data[,env])
+  at <- summary(add.anova)
+  at <- cbind(at[[1]][,1:4], at[[1]][,5])
+  at[5,1] <- at[5,1] - nmis
+  at[5,3] <- at[5,2]/at[5,1]
+  at[1:4,4] <- at[1:4,3]/at[5,3]
+  at[1:4,5] <- pf(at[1:4,4], at[1:4,1], at[5,1], lower.tail=F)
+  
   # Regression-stability for genotypes
   
   a <- NULL
@@ -88,12 +98,24 @@ RegStab <- function(trait, geno, env, rep, data, maxp = 0.05){
     drg_sc <- sum((ypred - ymean)^2)
     hrg_gl <- geno.num - 1
     drg_gl <- (geno.num - 1)*(env.num - 1) - hrg_gl
-    drg_cm <- drg_sc/drg_gl	
+    drg_cm <- drg_sc/drg_gl
+    hrg_sc <- at[4,2] - drg_sc
+    hrg_cm <- hrg_sc/hrg_gl
+    hrg_f <- hrg_cm/drg_cm
+    hrg_p <- pf(hrg_f, hrg_gl, drg_gl, lower.tail=F)
+    drg_f <- drg_cm/at[5,3]
+    drg_p <- pf(drg_f, drg_gl, at[5,1], lower.tail=F)    
   } else {
     drg_sc <- NA
     hrg_gl <- NA
     drg_gl <- NA
     drg_cm <- NA
+    hrg_sc <- NA
+    hrg_cm <- NA
+    hrg_f <- NA
+    hrg_p <- NA
+    drg_f <- NA
+    drg_p <- NA    
   }
   
   # Regression-stability for environments
@@ -132,55 +154,27 @@ RegStab <- function(trait, geno, env, rep, data, maxp = 0.05){
     hre_gl <- env.num - 1
     dre_gl <- (geno.num - 1)*(env.num - 1) - hre_gl
     dre_cm <- dre_sc/dre_gl
+    hre_sc <- at[4,2] - dre_sc
+    hre_cm <- hre_sc/hre_gl  
+    hre_f <- hre_cm/dre_cm
+    hre_p <- pf(hre_f, hre_gl, dre_gl, lower.tail=F)
+    dre_f <- dre_cm/at[5,3]
+    dre_p <- pf(dre_f, dre_gl, at[5,1], lower.tail=F)    
   } else {
     dre_sc <- NA
     hre_gl <- NA
     dre_gl <- NA
     dre_cm <- NA
-  }
-  
-  # ANOVA
-
-  add.anova <- aov(data[,trait] ~ data[,geno] + data[,env] + data[,rep] %in% data[,env] + data[,geno]:data[,env])
-  at <- summary(add.anova)
-  at <- cbind(at[[1]][,1:4], at[[1]][,5])
-  at[5,1] <- at[5,1] - nmis
-  at[5,3] <- at[5,2]/at[5,1]
-  at[1:4,4] <- at[1:4,3]/at[5,3]
-  at[1:4,5] <- pf(at[1:4,4], at[1:4,1], at[5,1], lower.tail=F)
-  
-  # ANOVA plus regression stability
-    
-  if (env.num > 2){
-    hrg_sc <- at[4,2] - drg_sc
-    hrg_cm <- hrg_sc/hrg_gl
-    hrg_f <- hrg_cm/drg_cm
-    hrg_p <- pf(hrg_f, hrg_gl, drg_gl, lower.tail=F)
-    drg_f <- drg_cm/at[5,3]
-    drg_p <- pf(drg_f, drg_gl, at[5,1], lower.tail=F)
-  } else {
-    hrg_sc <- NA
-    hrg_cm <- NA
-    hrg_f <- NA
-    hrg_p <- NA
-    drg_f <- NA
-    drg_p <- NA
-  }
-  if (geno.num > 2){
-    hre_sc <- at[4,2] - dre_sc
-    hre_cm <- hre_sc/hre_gl	
-    hre_f <- hre_cm/dre_cm
-    hre_p <- pf(hre_f, hre_gl, dre_gl, lower.tail=F)
-    dre_f <- dre_cm/at[5,3]
-    dre_p <- pf(dre_f, dre_gl, at[5,1], lower.tail=F)
-  } else {
     hre_sc <- NA
     hre_cm <- NA
     hre_f <- NA
     hre_p <- NA
     dre_f <- NA
-    dre_p <- NA
+    dre_p <- NA    
   }
+  
+  # ANOVA plus regression stability
+    
   at[2,4] <- at[2,3]/at[3,3]
   at[2,5] <- pf(at[2,4], at[2,1], at[3,1], lower.tail=F)
   filaux <- at[5,]
@@ -189,16 +183,13 @@ RegStab <- function(trait, geno, env, rep, data, maxp = 0.05){
   at <- rbind(at, c(hre_gl, hre_sc, hre_cm, hre_f, hre_p))
   at <- rbind(at, c(dre_gl, dre_sc, dre_cm, dre_f, dre_p))
   at[9,] <- filaux
-  at[1,6] <- qt(.975, at[9,1])*sqrt(at[9,3]*2/rep.num/env.num)
-  at[2,6] <- qt(.975, at[3,1])*sqrt(at[3,3]*2/rep.num/geno.num)
-  at[4,6] <- qt(.975, at[9,1])*sqrt(at[9,3]*2/rep.num)
   row.names(at) <- c("G", "E", "R:E", "GxE", "- Het.Regr.G", "- Dev.Regr.G",
                      "- Het.Regr.E", "- Dev.Regr.E", "Residuals")
-  colnames(at)[5:6] <- c("Pr(>F)", "LSD5")
+  colnames(at)[5] <- "Pr(>F)"
   cv <- sqrt(at[5,3])/abs(overall.mean)*100 
   
   # Return
   
-  list(anova.table = at, cv = cv)
+  list(anova.table = format(at, digits=4), cv = paste(format(cv, digits=4), "%"))
 }
 
