@@ -6,7 +6,7 @@ Tools for the analysis of field experiments data (mainly R code). To use these t
 AMMI
 -------------------------
 
-Set of functions to run AMMI (Gollob, H. R., 1968, A Statistical Model which combines Features of Factor Analytic and Analysis of Variance Techniques, *Psychometrika*, Vol 33(1): 73-114).
+Set of functions to run AMMI (Gollob, H. R., 1968).
 
 CheckConsis
 -------------------------
@@ -34,6 +34,11 @@ MissValEst
 
 Set of functions to estimate missing values for field experiments data.
 
+RegStab
+-------
+
+Function to run the regression stability analysis (Yates and Cochran, 1938, Finlay and Wilkinson, 1963).
+
 Resp2Selection
 --------------
 
@@ -42,4 +47,4 @@ Set of scripts to find the optimum number of replications to get the maximum res
 Tai
 ----------
 
-R code to perform the Tai stability analysis (Tai, G. C. C., 1971, Genotypic Stability Analysis and Its Application to Potato Regional Trials, *Crop Science*, Vol 11).
+R code to perform the Tai stability analysis (Tai, G. C. C., 1971).
