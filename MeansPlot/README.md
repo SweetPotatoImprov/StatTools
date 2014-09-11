@@ -28,8 +28,8 @@ y.title    : Title for y axis.
 col        : Line color for circles.
 bg         : Background color for circles.
 col.lines  : Line color for confidenced interval lines.
-width      : Width size.
-height     : Height size.
+width      : The width of the device.
+height     : The height of the device.
 ```
 
 ### Value
