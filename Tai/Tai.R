@@ -14,8 +14,8 @@ if ('CheckData02' %in% lsf.str() == F)
 
 ## Tai function
 
-Tai <- function(trait, geno, env, rep, data, conf = 0.95, title = NULL,
-                file.name = NULL, color = c("darkorange", "black", "gray"),
+Tai <- function(trait, geno, env, rep, data, conf = 0.95, file.name = NULL,
+                title = NULL, color = c("darkorange", "black", "gray"),
                 Gsize = 600, ...){
   
   # Everything as factor

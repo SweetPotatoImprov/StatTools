@@ -29,6 +29,11 @@ IndexSelection
 
 Proposed Selection Indices for Applied Breeding Programs.
 
+MeansPlot
+----------
+
+An alternative to the controversial dynamite plots.
+
 MissValEst
 ----------
 

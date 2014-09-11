@@ -21,8 +21,8 @@ env       : Environments.
 rep       : Replications or blocks. A RCBD is assumed.
 data      : Data frame containing the data.
 conf      : Probability for the Tai limits.
-title     : Main title for plot.
 file.name : File name for plot.
+title     : Main title for plot.
 color     : Color for symbols, names and lines.
 Gsize     : Graphic size.
 ...       : Additional graphic parameters.
