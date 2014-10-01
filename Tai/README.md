@@ -36,18 +36,17 @@ genotype.
 
 ### Example
 
-Run the following code to load all the necessary functions:
-
 ```{r eval=F}
+# Load the Tai.R function in R (this works with RStudio)
 urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/Tai/Tai.R"
 source(urlfile)
-```
 
-If data for a MET in a RCBD is loaded in a data frame with name `mydata`
-containing a column for trait root yield (`RYTHA`) and columns with names `geno`, `env`,
-and `rep`, the following code will do the job (accepting all the defaults):
-```{r eval=F}
-Tai("RYTHA", "geno", "env", "rep", mydata)
+# Load the data
+urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/AMMI/METdata.dat"
+mydata <- read.table(urlfile, header=T)
+
+# Run Tai for trait y
+Tai("y", "geno", "env", "rep", mydata)
 ```
 
 ### References

@@ -80,7 +80,7 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, biplot = 1,
 
 AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL,
                           rdf = NULL, rms = NULL, f = .5, biplot = 1,
-                          biplot1 = "effects", title = NULL, xlab = xlab,
+                          biplot1 = "effects", title = NULL, xlab = NULL,
                           color = c("darkorange", "black", "gray"), ...){
   
   # Data

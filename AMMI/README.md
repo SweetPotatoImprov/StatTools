@@ -52,24 +52,26 @@ are specified.
 
 ### Example
 
-Run the following code to load all the functions:
-
 ```{r eval=F}
+# Load the AMMI.R function in R (this works with RStudio)
 urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/AMMI/AMMI.R"
 source(urlfile)
-```
 
-If data for a MET in a RCBD is loaded in a data frame with name `mydata`
-containing a column for trait root yield (`RYTHA`) and columns with names `geno`, `env`,
-and `rep`, the following code will do the job (accepting all the defaults):
-```{r eval=F}
-AMMI("RYTHA", "geno", "env", "rep", mydata)
-```
+# Load the data
+urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/AMMI/METdata.dat"
+mydata <- read.table(urlfile, header=T)
 
-If the GxE means are loaded in an object with name `int.mean`, the following code will do the job
-(accepting all the defaults):
-```{r eval=F}
-AMMIwithMeans(int.mean)
+# Run AMMI for trait y, biplot1 by default
+AMMI("y", "geno", "env", "rep", mydata)
+
+# Run AMMI for trait y, biplot2
+AMMI("y", "geno", "env", "rep", mydata, biplot = 2)
+
+# Compute GxE means
+int.mean <- tapply(mydata$y, list(mydata$geno, mydata$env), mean, na.rm = T)
+
+# Run AMMI with GxE means matrix
+AMMIwithMeans(int.mean, trait = "y")
 ```
 
 ### References
