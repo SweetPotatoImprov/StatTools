@@ -9,15 +9,13 @@ an interaction means matrix.
 ### Usage
 
 ```{r eval=F}
-AMMI(trait, geno, env, rep, data, f = 0.5, biplot1 = "effects", file.name1 = NULL,
-     file.name2 = NULL, title1 = NULL, title2 = NULL, xlab1 = NULL,
-     color = c("darkorange", "black", "gray"), Gsize = 600, ...)
+AMMI(trait, geno, env, rep, data, f = 0.5, biplot = 1, biplot1 = "effects",
+     title = NULL, xlab = NULL, color = c("darkorange", "black", "gray"), ...)
 ```
 ```{r eval=F}
 AMMIwithMeans(int.mean, trait = NULL, rep.num = NULL, rdf = NULL, rms = NULL, f = 0.5,
-              biplot1 = "effects", file.name1 = NULL, file.name2 = NULL, title1 = NULL,
-              title2 = NULL, xlab1 = NULL, color = c("darkorange", "black", "gray"),
-              Gsize = 600, ...)
+              biplot = 1, biplot1 = "effects", title = NULL, xlab = NULL,
+              color = c("darkorange", "black", "gray"), ...)
 ```
 ### Arguments
 
@@ -32,14 +30,11 @@ rep.num    : Number of replications.
 rdf        : Residual degrees of freedom.
 rms        : Residual mean square.
 f          : Scaling factor, defaults to 0.5.
+biplot     : 1 for the trait-PC1 biplot and 2 for the PC1-PC2 biplot.
 biplot1    : Choose "effects" or "means" for biplot1.
-file.name1 : File name for biplot1.
-file.name2 : File name for biplot2.
-title1     : Main title for biplot1.
-title2     : Main title for biplot2.
-xlab1      : Xlab for biplot1.
+title      : Main title for biplot1 or biplot2.
+xlab       : Xlab for biplot1.
 color      : Color for lines, symbols and names for environments, genotypes and axes.
-Gsize      : Graphic size.
 ...        : Additional graphic parameters.
 ```
 
@@ -50,8 +45,8 @@ With funcion `AMMIwithMeans` the significance of PCs is evaluated only if `rep.n
 
 ### Value
 It returns the first and second PC values for genotypes and environments, a table with the
-contribution of each PC, a dispersion plot of means or effects against the first PC, and a
-dispersion plot of PC1 against PC2. Both plots are saved in the working directory as png files.
+contribution of each PC, a dispersion plot of means or effects against the first PC, or a
+dispersion plot of PC1 against PC2.
 Significance of PCs are included in the contributions table only if `rep.num`, `rms` and `rdf`
 are specified.
 
@@ -60,7 +55,8 @@ are specified.
 Run the following code to load all the functions:
 
 ```{r eval=F}
-source("AMMI.R")
+urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/AMMI/AMMI.R"
+source(urlfile)
 ```
 
 If data for a MET in a RCBD is loaded in a data frame with name `mydata`

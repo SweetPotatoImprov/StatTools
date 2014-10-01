@@ -15,10 +15,9 @@ if ('CheckData02' %in% lsf.str() == F)
 # Function 1. Compute AMMI from data at plot level
 ###############################################################################
 
-AMMI <- function(trait, geno, env, rep, data, f = .5, biplot1 = "effects",
-                 file.name1 = NULL, file.name2 = NULL,
-                 title1 = NULL, title2 = NULL, xlab1 = NULL,
-                 color = c("darkorange", "black", "gray"), Gsize = 600, ...){
+AMMI <- function(trait, geno, env, rep, data, f = .5, biplot = 1,
+                 biplot1 = "effects", title = NULL, xlab = NULL,
+                 color = c("darkorange", "black", "gray"), ...){
   
   # Everything as factor
   
@@ -71,20 +70,18 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, biplot1 = "effects",
   # Run AMMIwithMeans
   
   AMMIwithMeans(int.mean, trait = trait, rep.num = rep.num, rdf = rdf,
-                rms = rms, f = f, biplot1 = biplot1, file.name1 = file.name1,
-                file.name2 = file.name2, title1 = title1, title2 = title2,
-                xlab1 = xlab1, color = color, Gsize = Gsize, ...)
+                rms = rms, f = f, biplot = biplot, biplot1 = biplot1,
+                title = title, xlab = xlab, color = color, ...)
 }
 
 ###############################################################################
 # Function 2. Compute AMMI from an interaction means matrix
 ###############################################################################
 
-AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL, rdf = NULL,
-                          rms = NULL, f = .5, biplot1 = "effects", file.name1 = NULL,
-                          file.name2 = NULL, title1 = NULL, title2 = NULL,
-                          xlab1 = xlab1, color = c("darkorange", "black", "gray"),
-                          Gsize = 600, ...){
+AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL,
+                          rdf = NULL, rms = NULL, f = .5, biplot = 1,
+                          biplot1 = "effects", title = NULL, xlab = xlab,
+                          color = c("darkorange", "black", "gray"), ...){
   
   # Data
   
@@ -135,71 +132,63 @@ AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL, rdf = NULL,
   
   #  Biplot 1
   
-  if (is.null(title1) == 1)
-    title1 = paste("AMMI biplot1 for ", trait, sep = "")  
-  
-  if (is.null(file.name1) == 1)
-    file.name1 = paste("AMMI1_biplot_", trait, ".png", sep = "") else
-      file.name1 = paste(file.name1, ".png", sep = "")
-  
-  if (biplot1 == "effects"){
-    maxx <- max(abs(c(env.mean-overall.mean, geno.mean-overall.mean)))*1.05
-    limx <- c(-maxx, maxx)
-    if (is.null(xlab1) == 1)
-      xlab1 = "Genotype and environment effects"    
-    xcorg = geno.mean-overall.mean
-    xcore = env.mean-overall.mean    
-    xline = 0
+  if (biplot == 1){
+    
+    if (is.null(title) == 1)
+      title = paste("AMMI biplot1 for ", trait, sep = "")
+    
+    if (biplot1 == "effects"){
+      maxx <- max(abs(c(env.mean - overall.mean, geno.mean - overall.mean)))*1.05
+      limx <- c(-maxx, maxx)
+      if (is.null(xlab) == 1)
+        xlab = "Genotype and environment effects"
+      xcorg = geno.mean - overall.mean
+      xcore = env.mean - overall.mean
+      xline = 0
+    }
+    if (biplot1 == "means"){
+      limx <- range(c(env.mean, geno.mean))
+      limx <- limx + c(-max(abs(limx)), max(abs(limx)))*.05
+      if (is.null(xlab) == 1)
+        xlab = "Genotype and environment means"
+      xcorg = geno.mean
+      xcore = env.mean
+      xline = overall.mean
+    }
+    
+    limy <- c(-max(abs(c(E[,1], G[,1]))), max(abs(c(E[,1], G[,1]))))
+    
+    plot(1, type = "n", xlim = limx, ylim = limy, main = title, xlab = xlab,
+         ylab = paste("PC1 (",format(PC.cont[1],digits = 3),"%)"), ...)
+    points(xcorg, G[,1], col = color[2], pch = 17, ...)
+    text(xcorg, G[,1], labels = rownames(int.mean), col = color[2], pos = 1, offset = 0.3)
+    points(xcore, E[,1], col = color[1], pch = 15, ...)
+    text(xcore, E[,1], labels = colnames(int.mean), col = color[1], pos = 1, offset = .3)
+    abline(h = 0, v = xline, col = color[3], lty = 2)
   }
-  if (biplot1 == "means"){
-    limx <- range(c(env.mean, geno.mean))
-    limx <- limx + c(-max(abs(limx)), max(abs(limx)))*.05
-    if (is.null(xlab1) == 1)
-      xlab1 = "Genotype and environment means"    
-    xcorg = geno.mean
-    xcore = env.mean
-    xline = overall.mean
-  }
-  
-  limy <- c(-max(abs(c(E[,1], G[,1]))), max(abs(c(E[,1], G[,1]))))
-  
-  png(filename = file.name1, width = Gsize, height = Gsize)
-  par(mar = c(5, 4.5, 4, 2)+.1) 
-  plot(1, type = "n", xlim = limx, ylim = limy, main = title1, xlab = xlab1,
-       ylab = paste("PC1 (",format(PC.cont[1],digits = 3),"%)"), ...)
-  points(xcorg, G[,1], col = color[2], pch = 17, ...)
-  text(xcorg, G[,1], labels = rownames(int.mean), col = color[2], pos = 1, offset = 0.3)
-  points(xcore, E[,1], col = color[1], pch = 15, ...)
-  text(xcore, E[,1], labels = colnames(int.mean), col = color[1], pos = 1, offset = .3)
-  abline(h = 0, v = xline, col = color[3], lty = 2)
-  dev.off()
   
   # Biplot 2
   
-  if (is.null(title2) == 1)
-    title2 = paste("AMMI biplot2 for ", trait, sep = "")
-  
-  if (is.null(file.name2) == 1)
-    file.name2 = paste("AMMI2_biplot_", trait, ".png", sep = "") else
-      file.name2 = paste(file.name2, ".png", sep = "")
-
-  limx <- range(c(E[,1], G[,1]))
-  limx <- limx + c(-max(abs(limx)), max(abs(limx)))*.05
-  limy <- range(c(E[,2], G[,2]))
-  
-  png(filename = file.name2, width = Gsize, height = Gsize)
-  par(mar = c(5, 4.5, 4, 2)+.1)
-  plot(1, type = "n", xlim = limx, ylim = limy, main = title2,
-       xlab = paste("PC1 (", format(PC.cont[1], digits = 3), "%)"),
-       ylab = paste("PC2 (", format(PC.cont[2], digits = 3), "%)"),
-       asp = 1, ...)
-  points(G[,1], G[,2], col = color[2], pch = 17, ...)
-  text(G[,1], G[,2], labels = rownames(int.mean), col = color[2], pos = 1, offset = .3)
-  points(E[,1], E[,2], col = color[1], pch = 15, ...)
-  text(E[,1], E[,2], labels = colnames(int.mean), col = color[1], pos = 1, offset = .3)
-  abline(h = 0, v = 0, col = color[3], lty = 2)
-  for (i in 1:env.num) lines(c(0,E[i,1]), c(0,E[i,2]), col = color[1], lty = 3)
-  dev.off()
+  if (biplot == 2){
+    
+    if (is.null(title) == 1)
+      title = paste("AMMI biplot2 for ", trait, sep = "")
+    
+    limx <- range(c(E[,1], G[,1]))
+    limx <- limx + c(-max(abs(limx)), max(abs(limx)))*.05
+    limy <- range(c(E[,2], G[,2]))
+    
+    plot(1, type = "n", xlim = limx, ylim = limy, main = title,
+         xlab = paste("PC1 (", format(PC.cont[1], digits = 3), "%)"),
+         ylab = paste("PC2 (", format(PC.cont[2], digits = 3), "%)"),
+         asp = 1, ...)
+    points(G[,1], G[,2], col = color[2], pch = 17, ...)
+    text(G[,1], G[,2], labels = rownames(int.mean), col = color[2], pos = 1, offset = .3)
+    points(E[,1], E[,2], col = color[1], pch = 15, ...)
+    text(E[,1], E[,2], labels = colnames(int.mean), col = color[1], pos = 1, offset = .3)
+    abline(h = 0, v = 0, col = color[3], lty = 2)
+    for (i in 1:env.num) lines(c(0,E[i,1]), c(0,E[i,2]), col = color[1], lty = 3)
+  }
   
   # Output
   
