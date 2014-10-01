@@ -8,10 +8,9 @@ An alternative to the controversial and ugly dynamite plots.
 ### Usage
 
 ```{r eval=F}
-MeansPlot(trait, groups, data, conf = 0.95, file.name = "MeansPlot",
+MeansPlot(trait, groups, data, conf = 0.95, sort.means = "none",
           main.title = "", x.title = "groups", y.title = "",
-          col = "black", bg = "darkorange", col.lines = "black",
-          width = 480, height = 480)
+          col = "black", bg = "darkorange", col.lines = "black")
 ```
 
 ### Arguments
@@ -21,27 +20,25 @@ trait      : Trait to analyze.
 groups     : Grouping factor.
 data       : Data frame containing the data.
 conf       : Probability for the confidence limits.
-file.name  : File name for plot.
+sort.means : Sort for means, "none" by default.
 main.title : Main title.
 x.title    : Title for x axis.
 y.title    : Title for y axis.
 col        : Line color for circles.
 bg         : Background color for circles.
 col.lines  : Line color for confidenced interval lines.
-width      : The width of the device.
-height     : The height of the device.
 ```
 
 ### Value
+
 It returns a plot with the means and confidence limits for each group.
-The plot is saved in the working directory as a png file.
 
 ### Example
 
-
 ```{r eval=F}
-# Run the following code to load the function:
-source("MeansPlot.R")
+# Download the MeansPlot.R function. This works well with RStudio.
+urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/MeansPlot/MeansPlot.r"
+source(urlfile)
 
 # Simulate some data
 mydata <- data.frame(y = rnorm(100, sample(80:120, 10), sample(10:20, 10)), g = rep(1:10, 10))
