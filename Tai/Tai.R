@@ -14,9 +14,8 @@ if ('CheckData02' %in% lsf.str() == F)
 
 ## Tai function
 
-Tai <- function(trait, geno, env, rep, data, conf = 0.95, file.name = NULL,
-                title = NULL, color = c("darkorange", "black", "gray"),
-                Gsize = 600, ...){
+Tai <- function(trait, geno, env, rep, data, conf = 0.95, title = NULL,
+                color = c("darkorange", "black", "gray"), ...) {
   
   # Everything as factor
   
@@ -102,11 +101,6 @@ Tai <- function(trait, geno, env, rep, data, conf = 0.95, file.name = NULL,
   if (is.null(title) == 1)
     title = paste("Tai stability analysis for ", trait, sep = "")  
   
-  if (is.null(file.name) == 1)
-    file.name = paste("tai_", trait, ".png", sep = "") else
-      file.name = paste(file.name, ".png", sep = "")
-
-  png(filename = file.name, width = Gsize, height = Gsize)
   plot(1, type = "n", xlim = c(-0.05*lmax, lmax), ylim = c(-amax, amax),
        main = title, xlab = expression(lambda), ylab = expression(alpha), ...)
   points(lambda, alpha, col = color[1], lwd = 2, pch = 4, ...)
@@ -117,10 +111,10 @@ Tai <- function(trait, geno, env, rep, data, conf = 0.95, file.name = NULL,
          lty = 3, col = color[3])
   abline(v = qf(1-(1-conf)/2, env.num-2, env.num*(geno.num)*(rep.num-1)),
          lty = 3, col = color[3])
-  dev.off()
   
   # Output
   
   coords <- cbind(alpha, lambda)
   return(coords)
+  
 }

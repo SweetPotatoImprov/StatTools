@@ -8,8 +8,8 @@ Function to run the Tai stability analysis (Tai, G. C. C., 1971).
 ### Usage
 
 ```{r eval=F}
-Tai(trait, geno, env, rep, data, conf = 0.95, title = NULL, file.name = NULL,
-    color = c("darkorange", "black", "gray"), Gsize = 600, ...)
+Tai(trait, geno, env, rep, data, conf = 0.95, title = NULL,
+    color = c("darkorange", "black", "gray"), ...)
 ```
 
 ### Arguments
@@ -21,10 +21,8 @@ env       : Environments.
 rep       : Replications or blocks. A RCBD is assumed.
 data      : Data frame containing the data.
 conf      : Probability for the Tai limits.
-file.name : File name for plot.
 title     : Main title for plot.
 color     : Color for symbols, names and lines.
-Gsize     : Graphic size.
 ...       : Additional graphic parameters.
 ```
 
@@ -34,14 +32,15 @@ a RCBD with blocks nested into environments. If the data set is unbalanced, a wa
 
 ### Value
 It returns the Tai graph for stability analysis and the values of alpha and lambda for each
-genotype. The plot is saved in the working directory as a png file.
+genotype.
 
 ### Example
 
 Run the following code to load all the necessary functions:
 
 ```{r eval=F}
-source("Tai.R")
+urlfile <- "https://raw.githubusercontent.com/SweetPotatoImprov/StatTools/master/Tai/Tai.R"
+source(urlfile)
 ```
 
 If data for a MET in a RCBD is loaded in a data frame with name `mydata`
