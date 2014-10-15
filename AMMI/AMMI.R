@@ -12,11 +12,11 @@ if ('CheckData02' %in% lsf.str() == F)
   }
     
 ###############################################################################
-# Function 1. Compute AMMI from data at plot level
+# Function 1. Compute AMMI or GGE from data at plot level
 ###############################################################################
 
-AMMI <- function(trait, geno, env, rep, data, f = .5, biplot = 1,
-                 biplot1 = "effects", title = NULL, xlab = NULL,
+AMMI <- function(trait, geno, env, rep, data, method = "AMMI", f = .5,
+                 biplot = 1, biplot1 = "effects", title = NULL, xlab = NULL,
                  color = c("darkorange", "black", "gray"), ...){
   
   # Everything as factor
@@ -37,7 +37,7 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, biplot = 1,
   if (lc$c1 == 1 & lc$c2 == 0)
     warning("Warning: There is only one replication. Inference is not possible with one replication.")
   
-  if (lc$c1 == 1 & lc$c2 == 1 & lc$c3 == 0)
+  if (method == "AMMI" & lc$c1 == 1 & lc$c2 == 1 & lc$c3 == 0)
     warning("Warning: The data set is unbalanced. Significance of PCs is not evaluated.")
 
   geno.num <- nlevels(data[,geno])
@@ -48,7 +48,7 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, biplot = 1,
     stop(paste("Error: This is not a MET experiment."))
   
   if (geno.num < 3 | env.num < 3)
-    stop(paste("Error: You need at least 3 genotypes and 3 environments to run AMMI."))
+    stop(paste("Error: You need at least 3 genotypes and 3 environments to run AMMI or GGE."))
   
   # Compute interaction means matrix
   
@@ -69,17 +69,17 @@ AMMI <- function(trait, geno, env, rep, data, f = .5, biplot = 1,
   
   # Run AMMIwithMeans
   
-  AMMIwithMeans(int.mean, trait = trait, rep.num = rep.num, rdf = rdf,
-                rms = rms, f = f, biplot = biplot, biplot1 = biplot1,
+  AMMIwithMeans(int.mean, trait = trait, rep.num = rep.num, rdf = rdf, rms = rms,
+                method = method, f = f, biplot = biplot, biplot1 = biplot1,
                 title = title, xlab = xlab, color = color, ...)
 }
 
 ###############################################################################
-# Function 2. Compute AMMI from an interaction means matrix
+# Function 2. Compute AMMI or GGE from an interaction means matrix
 ###############################################################################
 
-AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL,
-                          rdf = NULL, rms = NULL, f = .5, biplot = 1,
+AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL, rdf = NULL,
+                          rms = NULL, method = "AMMI", f = .5, biplot = 1,
                           biplot1 = "effects", title = NULL, xlab = NULL,
                           color = c("darkorange", "black", "gray"), ...){
   
@@ -90,9 +90,17 @@ AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL,
   geno.mean <- apply(int.mean, 1, mean)
   env.num <- length(env.mean)
   geno.num <- length(geno.mean)
-  svd.mat <- int.mean + overall.mean
-  for (i in 1:env.num) svd.mat[,i] <- svd.mat[,i] - geno.mean
-  for (i in 1:geno.num) svd.mat[i,] <- svd.mat[i,] - env.mean
+  
+  if (method == "AMMI"){
+    svd.mat <- int.mean + overall.mean
+    for (i in 1:env.num) svd.mat[,i] <- svd.mat[,i] - geno.mean
+    for (i in 1:geno.num) svd.mat[i,] <- svd.mat[i,] - env.mean      
+  }
+  
+  if (method == "GGE"){
+    svd.mat <- int.mean
+    for (i in 1:geno.num) svd.mat[i,] <- svd.mat[i,] - env.mean
+  }
   
   # SVD
   
@@ -114,20 +122,22 @@ AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL,
   PC.acum <- cumsum(PC.cont)
   tablaPC <- data.frame(PC = PC.num, SV = PC.sv, Cont = PC.cont, CumCont = PC.acum)
   
-  # Significance of PCs, only if rep.num, rms and rdf are known
+  # Significance of PCs, only for AMMI and if rep.num, rms and rdf are known
   
-  if (is.null(rep.num) == 0){
-    int.SS <- (t(as.vector(svd.mat))%*%as.vector(svd.mat))*rep.num
-    PC.SS <- (dec$d[1:PC]^2)*rep.num
-    PC.DF <- env.num + geno.num - 1 - 2*c(1:PC)
-    MS <- PC.SS/PC.DF
-  }
-  if (is.null(rms) == 0 & is.null(rdf) == 0){
-    F <- MS/rms
-    probab <- pf(F, PC.DF, rdf, lower.tail = FALSE)
-    rowlab <- PC.num
-    tablaPC <- cbind(tablaPC, PC.DF, PC.SS, MS, F, probab)
-    colnames(tablaPC)[5:9] <- c("df", "SumSq", "MeanSq", "Fvalue", "Pr(>F)")
+  if (method == "AMMI"){
+    if (is.null(rep.num) == 0){
+      int.SS <- (t(as.vector(svd.mat))%*%as.vector(svd.mat))*rep.num
+      PC.SS <- (dec$d[1:PC]^2)*rep.num
+      PC.DF <- env.num + geno.num - 1 - 2*c(1:PC)
+      MS <- PC.SS/PC.DF
+    }
+    if (is.null(rms) == 0 & is.null(rdf) == 0){
+      F <- MS/rms
+      probab <- pf(F, PC.DF, rdf, lower.tail = FALSE)
+      rowlab <- PC.num
+      tablaPC <- cbind(tablaPC, PC.DF, PC.SS, MS, F, probab)
+      colnames(tablaPC)[5:9] <- c("df", "SumSq", "MeanSq", "Fvalue", "Pr(>F)")
+    }
   }
   
   #  Biplot 1
@@ -135,7 +145,7 @@ AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL,
   if (biplot == 1){
     
     if (is.null(title) == 1)
-      title = paste("AMMI biplot1 for ", trait, sep = "")
+      title = paste(method, " biplot1 for ", trait, sep = "")
     
     if (biplot1 == "effects"){
       maxx <- max(abs(c(env.mean - overall.mean, geno.mean - overall.mean)))*1.05
@@ -172,7 +182,7 @@ AMMIwithMeans <- function(int.mean, trait = NULL, rep.num = NULL,
   if (biplot == 2){
     
     if (is.null(title) == 1)
-      title = paste("AMMI biplot2 for ", trait, sep = "")
+      title = paste(method, " biplot2 for ", trait, sep = "")
     
     limx <- range(c(E[,1], G[,1]))
     limx <- limx + c(-max(abs(limx)), max(abs(limx)))*.05
