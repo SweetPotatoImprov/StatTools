@@ -17,8 +17,8 @@ MeansPlot <- function(trait, groups, data, conf = 0.95, sort.means = "none",
   # compute confidence intervals
   
   resu$n <- tapply(is.na(data[, trait])==0, data[,groups], sum)
-  resu$li <- resu$means - qt((1 + conf)/2, n) * resu$sdev/sqrt(resu$n)
-  resu$ls <- resu$means + qt((1 + conf)/2, n) * resu$sdev/sqrt(resu$n)
+  resu$li <- resu$means - qt((1 + conf)/2, resu$n) * resu$sdev/sqrt(resu$n)
+  resu$ls <- resu$means + qt((1 + conf)/2, resu$n) * resu$sdev/sqrt(resu$n)
   
   # sort
   
