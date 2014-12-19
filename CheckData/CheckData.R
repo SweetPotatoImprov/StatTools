@@ -7,7 +7,7 @@
 # Function 1: Check data for a RCBD
 ###############################################################################
 
-CheckData01 <- function(trait, geno, rep, data){
+CheckData01 <- function(trait, geno, data){
   
   # Check frequencies by geno
   
@@ -36,7 +36,7 @@ CheckData01 <- function(trait, geno, rep, data){
 # Function 2: Check data for a MET in a RCBD
 ###############################################################################
 
-CheckData02 <- function(trait, geno, env, rep, data){
+CheckData02 <- function(trait, geno, env, data){
   
   # Check frequencies by geno and env
   nmis <- sum(is.na(data[,trait]))
