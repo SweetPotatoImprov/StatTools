@@ -1,7 +1,7 @@
 StatTools
 ============
 
-IMPORTANT NOTE: Most of the code here is moving to the R package [st4gi](https://github.com/reyzaguirre/st4gi).
+IMPORTANT NOTE: Most of the code here is moving to the R package [st4gi](https://github.com/reyzaguirre/st4gi). This repo is not updated anymore.
 
 Tools for the analysis of field experiments data (mainly R code). To use these tools you must download all the R functions in your working directory. If you are new to R, you will need to install the software first. Download the last version of R from [here](http://cran.r-project.org/).
 
